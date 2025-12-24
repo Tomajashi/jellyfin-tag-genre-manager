@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using Jellyfin.Plugin.CustomMeta.Configuration;
+using Jellyfin.Plugin.tag_genre.manager.Configuration;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Common.Configuration;
 
-namespace Jellyfin.Plugin.CustomMeta.Services;
+namespace Jellyfin.Plugin.tag_genre.manager.Services;
 
 public class AssignmentStore
 {

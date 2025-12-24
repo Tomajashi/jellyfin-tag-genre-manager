@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using Jellyfin.Plugin.CustomMeta;
+using Jellyfin.Plugin.tag_genre.manager;
 using MediaBrowser.Common.Configuration;
 
-namespace Jellyfin.Plugin.CustomMeta.Services;
+namespace Jellyfin.Plugin.tag_genre.manager.Services;
 
 public class PresetStore
 {

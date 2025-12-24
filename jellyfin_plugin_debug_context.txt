@@ -1,0 +1,80 @@
+
+# Jellyfin Tag and Genre Manager Plugin
+## Project Description:
+The **Jellyfin Tag and Genre Manager** plugin is designed to manage custom tags and genres for media items in the Jellyfin media server. It allows users to create, edit, and apply tags/genres to their media content (movies, TV shows) via an easy-to-use UI.
+
+### Issues Being Worked On:
+- **Plugin Errors**: Missing references to `BasePlugin<>`, `Guid`, `IApplicationPaths`, `IXmlSerializer` while building the plugin.
+- **Jellyfin Version**: The plugin is built for **Jellyfin 10.10.3**, but there are build issues related to missing assemblies or namespaces.
+- **Plugin Class**: The `Plugin.cs` file is used to define the plugin and manage its configuration pages.
+
+### Key Areas Needing Help:
+- **Missing References**:
+    - `BasePlugin<>`: Used to create the base plugin for Jellyfin, but Jellyfin’s plugin assembly is missing.
+    - `Guid`: A .NET class that is not recognized, likely due to missing core .NET packages.
+    - `IApplicationPaths`: Interface for accessing application paths, required for file storage and configuration.
+    - `IXmlSerializer`: Jellyfin's XML serialization interface for handling configuration data.
+
+- **.csproj File**:
+    - Ensuring that all required **Jellyfin plugin dependencies** are properly referenced.
+    - Ensuring the correct **target framework** (`net8.0`) is set for compatibility with Jellyfin 10.10.x.
+
+### Steps Taken:
+- **Fixed Plugin Class**: Corrected `Plugin.cs` to include missing references to core namespaces and Jellyfin plugins.
+- **.csproj Update**: Ensured that the `.csproj` file includes necessary **Jellyfin dependencies** (e.g., `Jellyfin.Plugin`, `MediaBrowser.Controller`).
+- **Rebuilding**: Ran `dotnet build -c Release` after cleaning and restoring the project.
+
+---
+
+### Specific Errors Encountered:
+
+```
+error CS0246: The type or namespace name 'BasePlugin<>' could not be found
+error CS0246: The type or namespace name 'Guid' could not be found
+error CS0246: The type or namespace name 'IApplicationPaths' could not be found
+error CS0246: The type or namespace name 'IXmlSerializer' could not be found
+```
+
+---
+
+### Expected Output:
+- The plugin should compile and build without errors related to **missing namespaces**.
+- The plugin should load in Jellyfin's **Plugins** section with a **configuration page** available.
+
+---
+
+### Plugin Setup:
+
+**PluginPageInfo**:
+
+```csharp
+public IEnumerable<PluginPageInfo> GetPages()
+{
+    return new[]
+    {
+        new PluginPageInfo
+        {
+            Name = "custommetadata",
+            EmbeddedResourcePath = $"{GetType().Namespace}.Configuration.configPage.html"
+        }
+    };
+}
+```
+
+**Dependencies (to include in .csproj)**:
+```xml
+<ItemGroup>
+    <PackageReference Include="Jellyfin.Plugin" Version="10.10.*" />
+    <PackageReference Include="MediaBrowser.Controller" Version="10.10.*" />
+    <PackageReference Include="MediaBrowser.Common" Version="10.10.*" />
+    <PackageReference Include="Jellyfin.Model" Version="10.10.*" />
+</ItemGroup>
+```
+
+---
+
+### Request to Copilot:
+- **Help with resolving the missing references** and identifying if any packages need to be explicitly referenced.
+- Suggest additional steps to ensure **plugin compatibility with Jellyfin 10.10.x**.
+- Validate **.csproj** structure for Jellyfin plugin projects.
+

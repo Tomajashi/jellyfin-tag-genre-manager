@@ -1,10 +1,12 @@
-let selectedItemId = null;
-let currentAssignment = { tags: [], genres: [] };
+// Assuming this is the structure of your plugin
+
 let presets = { tags: [], genres: [] };
+let currentAssignment = { tags: [], genres: [] };
 
 async function apiGet(url) {
   return ApiClient.getJSON(ApiClient.getUrl(url));
 }
+
 async function apiPost(url, body) {
   return ApiClient.ajax({
     type: "POST",
@@ -14,132 +16,146 @@ async function apiPost(url, body) {
   });
 }
 
+// Render tags and genres in the UI
 function renderPresets() {
-  // lists
   const tagsUl = document.getElementById("savedTags");
   const genresUl = document.getElementById("savedGenres");
   tagsUl.innerHTML = "";
   genresUl.innerHTML = "";
 
-  presets.tags.forEach(t => {
+  presets.tags.forEach(tag => {
     const li = document.createElement("li");
-    li.textContent = t;
+    li.textContent = tag;
     tagsUl.appendChild(li);
   });
-  presets.genres.forEach(g => {
+
+  presets.genres.forEach(genre => {
     const li = document.createElement("li");
-    li.textContent = g;
+    li.textContent = genre;
     genresUl.appendChild(li);
   });
 
-  // dropdowns
+  // Add tags and genres to the select dropdowns
   const tagSelect = document.getElementById("tagSelect");
   const genreSelect = document.getElementById("genreSelect");
   tagSelect.innerHTML = "";
   genreSelect.innerHTML = "";
 
-  presets.tags.forEach(t => {
-    const o = document.createElement("option");
-    o.value = t; o.textContent = t;
-    tagSelect.appendChild(o);
-  });
-  presets.genres.forEach(g => {
-    const o = document.createElement("option");
-    o.value = g; o.textContent = g;
-    genreSelect.appendChild(o);
-  });
-}
-
-function renderItemAssignment() {
-  const tagsUl = document.getElementById("itemTags");
-  const genresUl = document.getElementById("itemGenres");
-  tagsUl.innerHTML = "";
-  genresUl.innerHTML = "";
-
-  currentAssignment.tags.forEach((t, idx) => {
-    const li = document.createElement("li");
-    const btn = document.createElement("button");
-    btn.textContent = "x";
-    btn.onclick = () => { currentAssignment.tags.splice(idx, 1); renderItemAssignment(); };
-    li.textContent = t + " ";
-    li.appendChild(btn);
-    tagsUl.appendChild(li);
+  presets.tags.forEach(tag => {
+    const option = document.createElement("option");
+    option.value = tag;
+    option.textContent = tag;
+    tagSelect.appendChild(option);
   });
 
-  currentAssignment.genres.forEach((g, idx) => {
-    const li = document.createElement("li");
-    const btn = document.createElement("button");
-    btn.textContent = "x";
-    btn.onclick = () => { currentAssignment.genres.splice(idx, 1); renderItemAssignment(); };
-    li.textContent = g + " ";
-    li.appendChild(btn);
-    genresUl.appendChild(li);
+  presets.genres.forEach(genre => {
+    const option = document.createElement("option");
+    option.value = genre;
+    option.textContent = genre;
+    genreSelect.appendChild(option);
   });
 }
 
+// Fetch presets when the page loads
 async function loadPresets() {
   presets = await apiGet("/CustomMeta/presets");
   renderPresets();
 }
 
-async function loadItem(itemId) {
-  selectedItemId = itemId;
-  const data = await apiGet(`/CustomMeta/item/${itemId}`);
-  document.getElementById("itemTitle").textContent = data.name;
-  currentAssignment = { tags: data.tags ?? [], genres: data.genres ?? [] };
-  document.getElementById("itemPanel").style.display = "block";
-  renderItemAssignment();
-}
-
-document.getElementById("addTagBtn").onclick = async () => {
-  const v = document.getElementById("newTag").value.trim();
-  if (!v) return;
-  await apiPost("/CustomMeta/presets/tags", { value: v });
-  document.getElementById("newTag").value = "";
-  await loadPresets();
-};
-
-document.getElementById("addGenreBtn").onclick = async () => {
-  const v = document.getElementById("newGenre").value.trim();
-  if (!v) return;
-  await apiPost("/CustomMeta/presets/genres", { value: v });
-  document.getElementById("newGenre").value = "";
-  await loadPresets();
-};
-
-document.getElementById("searchBtn").onclick = async () => {
-  const term = document.getElementById("searchTerm").value.trim();
+// Fetch and display search results
+async function searchMedia() {
+  const term = document.getElementById("searchTerm").value;
   const results = await apiGet(`/CustomMeta/search?term=${encodeURIComponent(term)}`);
 
-  const ul = document.getElementById("searchResults");
-  ul.innerHTML = "";
-  results.forEach(r => {
+  const searchResults = document.getElementById("searchResults");
+  searchResults.innerHTML = "";
+
+  results.forEach(item => {
     const li = document.createElement("li");
-    const btn = document.createElement("button");
-    btn.textContent = "Select";
-    btn.onclick = () => loadItem(r.id);
-    li.textContent = `${r.name} (${r.type}) `;
-    li.appendChild(btn);
-    ul.appendChild(li);
+    li.textContent = item.name;
+    const selectBtn = document.createElement("button");
+    selectBtn.textContent = "Select";
+    selectBtn.onclick = () => loadItem(item.id);
+    li.appendChild(selectBtn);
+    searchResults.appendChild(li);
   });
-};
+}
 
+// Display item details and allow tagging
+async function loadItem(itemId) {
+  const item = await apiGet(`/CustomMeta/item/${itemId}`);
+  document.getElementById("itemTitle").textContent = item.name;
+  currentAssignment = { tags: item.tags, genres: item.genres };
+
+  // Render tags/genres of the item
+  const itemTags = document.getElementById("itemTags");
+  const itemGenres = document.getElementById("itemGenres");
+  itemTags.innerHTML = "";
+  itemGenres.innerHTML = "";
+
+  currentAssignment.tags.forEach(tag => {
+    const li = document.createElement("li");
+    li.textContent = tag;
+    itemTags.appendChild(li);
+  });
+
+  currentAssignment.genres.forEach(genre => {
+    const li = document.createElement("li");
+    li.textContent = genre;
+    itemGenres.appendChild(li);
+  });
+
+  // Show the item panel
+  document.getElementById("itemPanel").style.display = "block";
+}
+
+// Add a tag to the item
 document.getElementById("addTagToItemBtn").onclick = () => {
-  const v = document.getElementById("tagSelect").value;
-  if (v && !currentAssignment.tags.includes(v)) currentAssignment.tags.push(v);
-  renderItemAssignment();
+  const tag = document.getElementById("tagSelect").value;
+  if (!currentAssignment.tags.includes(tag)) {
+    currentAssignment.tags.push(tag);
+    renderItemAssignment();
+  }
 };
 
+// Add a genre to the item
 document.getElementById("addGenreToItemBtn").onclick = () => {
-  const v = document.getElementById("genreSelect").value;
-  if (v && !currentAssignment.genres.includes(v)) currentAssignment.genres.push(v);
-  renderItemAssignment();
+  const genre = document.getElementById("genreSelect").value;
+  if (!currentAssignment.genres.includes(genre)) {
+    currentAssignment.genres.push(genre);
+    renderItemAssignment();
+  }
 };
 
+// Render current item tags and genres
+function renderItemAssignment() {
+  const itemTags = document.getElementById("itemTags");
+  const itemGenres = document.getElementById("itemGenres");
+  itemTags.innerHTML = "";
+  itemGenres.innerHTML = "";
+
+  currentAssignment.tags.forEach(tag => {
+    const li = document.createElement("li");
+    li.textContent = tag;
+    itemTags.appendChild(li);
+  });
+
+  currentAssignment.genres.forEach(genre => {
+    const li = document.createElement("li");
+    li.textContent = genre;
+    itemGenres.appendChild(li);
+  });
+}
+
+// Save the changes and apply them to the item
 document.getElementById("saveApplyBtn").onclick = async () => {
-  if (!selectedItemId) return;
-  await apiPost(`/CustomMeta/item/${selectedItemId}`, currentAssignment);
-  Dashboard.alert("Saved + applied!");
+  const itemId = document.getElementById("itemTitle").textContent;
+  await apiPost(`/CustomMeta/item/${itemId}`, currentAssignment);
+  alert("Tags and genres applied!");
 };
 
+// Load presets on page load
 loadPresets();
+
+// Handle search button click
+document.getElementById("searchBtn").onclick = searchMedia;

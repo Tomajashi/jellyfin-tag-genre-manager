@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Jellyfin.Plugin.CustomMeta.Configuration;
+using Jellyfin.Plugin.tag_genre.manager.Configuration;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Entities;
 using Jellyfin.Data.Enums;
 
 
-namespace Jellyfin.Plugin.CustomMeta.Services;
+namespace Jellyfin.Plugin.tag_genre.manager.Services;
 
 public class ApplyService
 {

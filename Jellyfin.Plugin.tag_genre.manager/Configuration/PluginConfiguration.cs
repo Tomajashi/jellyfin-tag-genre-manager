@@ -1,6 +1,6 @@
 using MediaBrowser.Model.Plugins;
 
-namespace Jellyfin.Plugin.CustomMeta.Configuration;
+namespace Jellyfin.Plugin.tag_genre.manager.Configuration;
 
 public class PluginConfiguration : BasePluginConfiguration
 {

@@ -2,9 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MediaBrowser.Controller.Library;
-using Jellyfin.Plugin.CustomMeta.Services;
+using Jellyfin.Plugin.tag_genre.manager.Services;
 
-namespace Jellyfin.Plugin.CustomMeta.Controllers;
+namespace Jellyfin.Plugin.tag_genre.manager.Controllers;
 
 [ApiController]
 [Route("CustomMeta")]
