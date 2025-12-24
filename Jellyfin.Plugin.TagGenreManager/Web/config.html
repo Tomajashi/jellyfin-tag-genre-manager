@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Tag & Genre Manager</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <!-- Version: 2.0.0 - Search Fix with Client-Side Filtering -->
+    <style>
+        .tab-button.active {
+            font-weight: bold;
+            border-bottom: 2px solid var(--theme-primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="TagGenreManagerConfigurationPage" data-role="page" class="page type-interior pluginConfigurationPage"
+        data-require="emby-input,emby-button,emby-select,emby-checkbox">
+        <div data-role="content">
+            <div class="content-primary">
+                <h1>Custom Tag & Genre Manager</h1>
+
+                <div class="section-tabs"
+                    style="width: 100%; text-align: left; margin-bottom: 20px; border-bottom: 1px solid #444;">
+                    <button is="emby-button" class="button-link tab-button active" id="btnTabDef">Definitions</button>
+                    <button is="emby-button" class="button-link tab-button" id="btnTabAssign">Assignment</button>
+                </div>
+
+                <!-- DEFINITIONS TAB -->
+                <div id="tabDefinitions">
+                    <p>Manage your custom tags and genres here.</p>
+
+                    <div class="section">
+                        <h2>Tags</h2>
+                        <div style="display: flex; gap: 10px; align-items: flex-end; margin-bottom: 20px;">
+                            <div style="flex-grow: 1;">
+                                <input type="text" id="txtNewTag" is="emby-input" label="New Tag Name" />
+                            </div>
+                            <button is="emby-button" type="button" class="raised button-submit"
+                                id="btnAddTag">Add</button>
+                        </div>
+                        <div class="paperList" id="listTags" style="max-height: 300px; overflow-y: auto;"></div>
+                    </div>
+
+                    <div class="section" style="margin-top: 40px;">
+                        <h2>Genres</h2>
+                        <div style="display: flex; gap: 10px; align-items: flex-end; margin-bottom: 20px;">
+                            <div style="flex-grow: 1;">
+                                <input type="text" id="txtNewGenre" is="emby-input" label="New Genre Name" />
+                            </div>
+                            <button is="emby-button" type="button" class="raised button-submit"
+                                id="btnAddGenre">Add</button>
+                        </div>
+                        <div class="paperList" id="listGenres" style="max-height: 300px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+
+                <!-- ASSIGNMENT TAB -->
+                <div id="tabAssignment" style="display: none;">
+                    <h2>Search Media</h2>
+                    <div style="display: flex; gap: 10px; align-items: flex-end; margin-bottom: 10px;">
+                        <div style="flex-grow: 1;">
+                            <input type="text" id="txtSearch" is="emby-input" label="Search Movies, Series..." />
+                        </div>
+                        <button is="emby-button" class="raised" id="btnSearch">Search</button>
+                    </div>
+                    <div id="listSearchResults" class="paperList"
+                        style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;"></div>
+
+                    <div id="editorArea" style="display:none; border-top: 1px solid #444; padding-top: 20px;">
+                        <h2 id="selectedItemName">Editing: ...</h2>
+                        <div style="display:flex; flex-wrap: wrap; gap: 40px;">
+                            <div style="flex:1; min-width: 200px;">
+                                <h3>Assigned Tags</h3>
+                                <div id="editorTags" style="max-height: 300px; overflow-y: auto;"></div>
+                            </div>
+                            <div style="flex:1; min-width: 200px;">
+                                <h3>Assigned Genres</h3>
+                                <div id="editorGenres" style="max-height: 300px; overflow-y: auto;"></div>
+                            </div>
+                        </div>
+                        <br />
+                        <button is="emby-button" class="raised button-submit" id="btnSaveAssignment">Save
+                            Changes</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script type="text/javascript">
+            (function () {
+                console.log('Tag & Genre Manager v2.0.0 - Search Fix Activated');
+                var pluginId = '9557C486-0D04-4C3D-8A3E-965313936357';
+                var pageId = '#TagGenreManagerConfigurationPage';
+
+                var cachedTags = [];
+                var cachedGenres = [];
+                var currentItem = null;
+
+                function getUrl(path) {
+                    return ApiClient.getUrl('TagGenreManager/' + path);
+                }
+
+                function loadData() {
+                    ApiClient.getJSON(getUrl('Tags')).then(function (t) {
+                        cachedTags = t;
+                        renderTags(t);
+                    });
+                    ApiClient.getJSON(getUrl('Genres')).then(function (g) {
+                        cachedGenres = g;
+                        renderGenres(g);
+                    });
+                }
+
+                function renderTags(tags) {
+                    var html = tags.map(function (t) {
+                        return '<div class="listItem">' +
+                            '<div class="listItemBody"><div class="listItemBodyText">' + t.Name + '</div></div>' +
+                            '<button type="button" class="fab mini btnDeleteTag" data-id="' + t.Id + '"><i class="md-icon">delete</i></button>' +
+                            '</div>';
+                    }).join('');
+                    document.querySelector(pageId + ' #listTags').innerHTML = html;
+
+                    document.querySelectorAll(pageId + ' .btnDeleteTag').forEach(function (btn) {
+                        btn.addEventListener('click', function () { deleteTag(this.getAttribute('data-id')); });
+                    });
+                }
+
+                function renderGenres(genres) {
+                    var html = genres.map(function (g) {
+                        return '<div class="listItem">' +
+                            '<div class="listItemBody"><div class="listItemBodyText">' + g.Name + '</div></div>' +
+                            '<button type="button" class="fab mini btnDeleteGenre" data-id="' + g.Id + '"><i class="md-icon">delete</i></button>' +
+                            '</div>';
+                    }).join('');
+                    document.querySelector(pageId + ' #listGenres').innerHTML = html;
+
+                    document.querySelectorAll(pageId + ' .btnDeleteGenre').forEach(function (btn) {
+                        btn.addEventListener('click', function () { deleteGenre(this.getAttribute('data-id')); });
+                    });
+                }
+
+                // CRUD
+                function addTag() {
+                    var txt = document.querySelector(pageId + ' #txtNewTag');
+                    if (!txt.value) return;
+                    ApiClient.ajax({ type: 'POST', url: getUrl('Tags'), data: JSON.stringify({ Name: txt.value }), contentType: 'application/json' })
+                        .then(function () { txt.value = ''; loadData(); });
+                }
+                function deleteTag(id) {
+                    ApiClient.ajax({ type: 'DELETE', url: getUrl('Tags/' + id) }).then(loadData);
+                }
+                function addGenre() {
+                    var txt = document.querySelector(pageId + ' #txtNewGenre');
+                    if (!txt.value) return;
+                    ApiClient.ajax({ type: 'POST', url: getUrl('Genres'), data: JSON.stringify({ Name: txt.value }), contentType: 'application/json' })
+                        .then(function () { txt.value = ''; loadData(); });
+                }
+                function deleteGenre(id) {
+                    ApiClient.ajax({ type: 'DELETE', url: getUrl('Genres/' + id) }).then(loadData);
+                }
+
+                // TABS
+                function initTabs() {
+                    var btnDef = document.querySelector(pageId + ' #btnTabDef');
+                    var btnAssign = document.querySelector(pageId + ' #btnTabAssign');
+                    var tabDef = document.querySelector(pageId + ' #tabDefinitions');
+                    var tabAssign = document.querySelector(pageId + ' #tabAssignment');
+
+                    btnDef.addEventListener('click', function () {
+                        btnDef.classList.add('active'); btnAssign.classList.remove('active');
+                        tabDef.style.display = 'block'; tabAssign.style.display = 'none';
+                    });
+                    btnAssign.addEventListener('click', function () {
+                        btnAssign.classList.add('active'); btnDef.classList.remove('active');
+                        tabAssign.style.display = 'block'; tabDef.style.display = 'none';
+                    });
+                }
+
+                // ASSIGNMENT
+                function searchMedia() {
+                    var term = document.querySelector(pageId + ' #txtSearch').value;
+                    if (!term) return;
+                    Dashboard.showLoadingMsg();
+
+                    var userId = ApiClient.getCurrentUserId();
+                    ApiClient.getItems(userId, {
+                        SearchTerm: term,
+                        Recursive: true,
+                        IncludeItemTypes: "Movie,Series,BoxSet",
+                        Fields: "ProductionYear,Type",
+                        Limit: 50
+                    }).then(function (result) {
+                        Dashboard.hideLoadingMsg();
+                        // Filter out any non-media items (folders, collections, etc.)
+                        var validItems = result.Items.filter(function (item) {
+                            return item.Type === 'Movie' || item.Type === 'Series' || item.Type === 'BoxSet';
+                        });
+                        renderSearchResults(validItems.slice(0, 20));
+                    }).catch(function (err) {
+                        Dashboard.hideLoadingMsg();
+                        console.error('Search error:', err);
+                        renderSearchResults([]);
+                    });
+                }
+
+                function renderSearchResults(items) {
+                    var html = items.map(function (item) {
+                        return '<div class="listItem searchResultItem" data-id="' + item.Id + '" style="cursor:pointer; background: rgba(0,0,0,0.2); padding: 5px; margin: 2px;">' +
+                            '<div class="listItemBody"><div class="listItemBodyText">' + item.Name + ' (' + (item.ProductionYear || '?') + ')</div></div>' +
+                            '</div>';
+                    }).join('');
+                    document.querySelector(pageId + ' #listSearchResults').innerHTML = html;
+
+                    document.querySelectorAll(pageId + ' .searchResultItem').forEach(function (div) {
+                        div.addEventListener('click', function () { loadItemForEdit(this.getAttribute('data-id')); });
+                    });
+                }
+
+                function loadItemForEdit(itemId) {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getItem(ApiClient.getCurrentUserId(), itemId).then(function (item) {
+                        currentItem = item;
+                        document.querySelector(pageId + ' #selectedItemName').innerText = "Editing: " + item.Name;
+                        document.querySelector(pageId + ' #editorArea').style.display = 'block';
+
+                        // Render Checkboxes
+                        renderCheckboxes('editorTags', cachedTags, item.Tags || []);
+                        renderCheckboxes('editorGenres', cachedGenres, item.Genres || []);
+
+                        Dashboard.hideLoadingMsg();
+                    });
+                }
+
+                function renderCheckboxes(containerId, definedItems, itemValues) {
+                    var html = definedItems.map(function (def) {
+                        var isChecked = itemValues.indexOf(def.Name) !== -1 ? 'checked' : '';
+                        return '<label style="display:block; margin: 5px 0;">' +
+                            '<input type="checkbox" is="emby-checkbox" class="chk-' + containerId + '" value="' + def.Name + '" ' + isChecked + ' /> ' +
+                            '<span>' + def.Name + '</span></label>';
+                    }).join('');
+                    document.querySelector(pageId + ' #' + containerId).innerHTML = html;
+                }
+
+                function saveAssignment() {
+                    if (!currentItem) return;
+
+                    var newTags = [];
+                    document.querySelectorAll(pageId + ' .chk-editorTags:checked').forEach(function (c) { newTags.push(c.value); });
+
+                    var newGenres = [];
+                    document.querySelectorAll(pageId + ' .chk-editorGenres:checked').forEach(function (c) { newGenres.push(c.value); });
+
+                    currentItem.Tags = newTags;
+                    currentItem.Genres = newGenres;
+
+                    Dashboard.showLoadingMsg();
+                    ApiClient.updateItem(currentItem).then(function () {
+                        Dashboard.hideLoadingMsg();
+                        Dashboard.alert('Saved!');
+                    }, function (err) {
+                        Dashboard.hideLoadingMsg();
+                        Dashboard.alert({ message: 'Error saving: ' + err });
+                    });
+                }
+
+                document.querySelector(pageId).addEventListener('pageshow', function () {
+                    loadData();
+                    initTabs();
+
+                    var btnAddTag = document.querySelector(pageId + ' #btnAddTag');
+                    btnAddTag.removeEventListener('click', addTag); btnAddTag.addEventListener('click', addTag);
+
+                    var btnAddGenre = document.querySelector(pageId + ' #btnAddGenre');
+                    btnAddGenre.removeEventListener('click', addGenre); btnAddGenre.addEventListener('click', addGenre);
+
+                    var btnSearch = document.querySelector(pageId + ' #btnSearch');
+                    btnSearch.removeEventListener('click', searchMedia); btnSearch.addEventListener('click', searchMedia);
+
+                    var btnSave = document.querySelector(pageId + ' #btnSaveAssignment');
+                    btnSave.removeEventListener('click', saveAssignment); btnSave.addEventListener('click', saveAssignment);
+                });
+            })();
+        </script>
+    </div>
+</body>
+
+</html>

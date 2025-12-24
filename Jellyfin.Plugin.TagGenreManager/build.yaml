@@ -1,0 +1,16 @@
+---
+name: "TagGenreManager"
+guid: "9557c486-0d04-4c3d-8a3e-965313936357"
+version: "1.0.0.0"
+targetAbi: "10.10.3.0"
+framework: "net8.0"
+overview: "Custom Tag & Genre Manager for Jellyfin"
+description: >
+  Manage custom tags and genres with a centralized interface.
+  Create predefined metadata values and assign them to media items.
+category: "Metadata"
+owner: "Tomajashi"
+artifacts:
+- "Jellyfin.Plugin.TagGenreManager.dll"
+changelog: >
+  Initial release - Custom tag and genre management system
