@@ -2,15 +2,20 @@
 
 let presets = { tags: [], genres: [] };
 let currentAssignment = { tags: [], genres: [] };
+let currentItemId = null;
+
+// Get pluginId from URL
+const urlParams = new URLSearchParams(window.location.search);
+const pluginId = urlParams.get('pluginId') || 'TagGenreManager'; // fallback
 
 async function apiGet(url) {
-  return ApiClient.getJSON(ApiClient.getUrl(url));
+  return ApiClient.getJSON(ApiClient.getUrl("plugins/" + pluginId + "/" + url));
 }
 
 async function apiPost(url, body) {
   return ApiClient.ajax({
     type: "POST",
-    url: ApiClient.getUrl(url),
+    url: ApiClient.getUrl("plugins/" + pluginId + "/" + url),
     data: JSON.stringify(body ?? {}),
     contentType: "application/json"
   });
@@ -58,14 +63,14 @@ function renderPresets() {
 
 // Fetch presets when the page loads
 async function loadPresets() {
-  presets = await apiGet("/CustomMeta/presets");
+  presets = await apiGet("CustomMeta/presets");
   renderPresets();
 }
 
 // Fetch and display search results
 async function searchMedia() {
   const term = document.getElementById("searchTerm").value;
-  const results = await apiGet(`/CustomMeta/search?term=${encodeURIComponent(term)}`);
+  const results = await apiGet(`CustomMeta/search?term=${encodeURIComponent(term)}`);
 
   const searchResults = document.getElementById("searchResults");
   searchResults.innerHTML = "";
@@ -83,8 +88,9 @@ async function searchMedia() {
 
 // Display item details and allow tagging
 async function loadItem(itemId) {
-  const item = await apiGet(`/CustomMeta/item/${itemId}`);
+  const item = await apiGet(`CustomMeta/item/${itemId}`);
   document.getElementById("itemTitle").textContent = item.name;
+  currentItemId = itemId;
   currentAssignment = { tags: item.tags, genres: item.genres };
 
   // Render tags/genres of the item
@@ -149,8 +155,8 @@ function renderItemAssignment() {
 
 // Save the changes and apply them to the item
 document.getElementById("saveApplyBtn").onclick = async () => {
-  const itemId = document.getElementById("itemTitle").textContent;
-  await apiPost(`/CustomMeta/item/${itemId}`, currentAssignment);
+  if (!currentItemId) return;
+  await apiPost(`CustomMeta/item/${currentItemId}`, currentAssignment);
   alert("Tags and genres applied!");
 };
 
@@ -159,3 +165,23 @@ loadPresets();
 
 // Handle search button click
 document.getElementById("searchBtn").onclick = searchMedia;
+
+// Handle add tag button
+document.getElementById("addTagBtn").onclick = async () => {
+  const newTag = document.getElementById("newTag").value.trim();
+  if (newTag) {
+    await apiPost("CustomMeta/presets/tags", { Value: newTag });
+    document.getElementById("newTag").value = "";
+    await loadPresets();
+  }
+};
+
+// Handle add genre button
+document.getElementById("addGenreBtn").onclick = async () => {
+  const newGenre = document.getElementById("newGenre").value.trim();
+  if (newGenre) {
+    await apiPost("CustomMeta/presets/genres", { Value: newGenre });
+    document.getElementById("newGenre").value = "";
+    await loadPresets();
+  }
+};

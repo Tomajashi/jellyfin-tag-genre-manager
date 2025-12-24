@@ -1,0 +1,12 @@
+{
+  "guid": "4c1f8641-e980-4bcc-9fcc-29e221d2cf49",
+  "name": "TagGenreManager",
+  "description": "Manage tags and genres for media items",
+  "version": "1.0.0.0",
+  "changelog": "",
+  "targetAbi": "10.10.3.0",
+  "framework": "net8.0-windows",
+  "overview": "Plugin to manage tags and genres",
+  "owner": "TagGenreManager",
+  "category": "General"
+}

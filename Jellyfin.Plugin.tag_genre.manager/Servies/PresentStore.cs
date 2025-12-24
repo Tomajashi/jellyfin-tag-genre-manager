@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using Jellyfin.Plugin.tag_genre.manager;
+using Jellyfin.Plugin.TagGenreManager;
 using MediaBrowser.Common.Configuration;
 
-namespace Jellyfin.Plugin.tag_genre.manager.Services;
+namespace Jellyfin.Plugin.TagGenreManager.Services
+{
 
 public class PresetStore
 {
@@ -64,4 +65,5 @@ public class PresetStore
         public HashSet<string> Tags { get; set; } = new(StringComparer.OrdinalIgnoreCase);
         public HashSet<string> Genres { get; set; } = new(StringComparer.OrdinalIgnoreCase);
     }
+}
 }

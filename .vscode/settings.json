@@ -12,8 +12,8 @@
     // and on Linux, it defaults to
     // ${env:XDG_DATA_HOME}/jellyfin
     // However ${env:XDG_DATA_HOME} does not work in Visual Studio Code's development container!
-    "jellyfinWindowsDataDir": "${env:LOCALAPPDATA}/jellyfin",
+    "jellyfinWindowsDataDir": "C:\\ProgramData\\Jellyfin\\Server",
     "jellyfinLinuxDataDir": "$HOME/.local/share/jellyfin",
     // The name of the plugin
-    "pluginName": "Jellyfin.Plugin.Template",
+    "pluginName": "Jellyfin.Plugin.TagGenreManager",
 }

@@ -2,9 +2,11 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MediaBrowser.Controller.Library;
-using Jellyfin.Plugin.tag_genre.manager.Services;
+using Jellyfin.Plugin.TagGenreManager.Services;
+using Jellyfin.Plugin.TagGenreManager.Configuration;
+using MediaBrowser.Controller.Plugins;
 
-namespace Jellyfin.Plugin.tag_genre.manager.Controllers;
+namespace Jellyfin.Plugin.TagGenreManager.Controllers;
 
 [ApiController]
 [Route("CustomMeta")]
@@ -15,16 +17,13 @@ public class CustomMetaController : ControllerBase
     private readonly AssignmentStore _assignmentStore;
     private readonly ApplyService _applyService;
 
-    public CustomMetaController(
-        ILibraryManager libraryManager,
-        PresetStore presetStore,
-        AssignmentStore assignmentStore,
-        ApplyService applyService)
+    public CustomMetaController(ILibraryManager libraryManager)
     {
         _libraryManager = libraryManager;
-        _presetStore = presetStore;
-        _assignmentStore = assignmentStore;
-        _applyService = applyService;
+        var appPaths = Plugin.Instance.ApplicationPaths;
+        _presetStore = new PresetStore(appPaths);
+        _assignmentStore = new AssignmentStore(appPaths);
+        _applyService = new ApplyService(libraryManager);
     }
 
     [HttpGet("presets")]

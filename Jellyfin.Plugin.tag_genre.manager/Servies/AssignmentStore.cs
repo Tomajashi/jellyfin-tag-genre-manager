@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using Jellyfin.Plugin.tag_genre.manager.Configuration;
+using Jellyfin.Plugin.TagGenreManager.Configuration;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Common.Configuration;
 
-namespace Jellyfin.Plugin.tag_genre.manager.Services;
+namespace Jellyfin.Plugin.TagGenreManager.Services
+{
 
 public class AssignmentStore
 {
@@ -66,4 +67,5 @@ public class AssignmentStore
         public string[] Tags { get; set; } = Array.Empty<string>();
         public string[] Genres { get; set; } = Array.Empty<string>();
     }
+}
 }

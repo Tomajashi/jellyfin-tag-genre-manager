@@ -1,10 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>Jellyfin.Plugin.tag_genre.manager</RootNamespace>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <RootNamespace>Jellyfin.Plugin.TagGenreManager</RootNamespace>
         <OutputType>Library</OutputType>
-      <AssemblyName>Jellyfin.Plugin.tag_genre.manager</AssemblyName>
+      <AssemblyName>Jellyfin.Plugin.TagGenreManager</AssemblyName>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -23,17 +26,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediaBrowser.Common" Version="4.9.1.90" />
+    <PackageReference Include="Jellyfin.Common" Version="10.10.3" />
     <PackageReference Include="SerilogAnalyzer" Version="0.15.0" PrivateAssets="All" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="All" />
     <PackageReference Include="SmartAnalyzers.MultithreadingAnalyzer" Version="1.1.31" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Configuration\configPage.html" />
     <EmbeddedResource Include="Configuration\configPage.html" />
     <EmbeddedResource Include="Configuration\configPage.js" />
     
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="manifest.json" />
   </ItemGroup>
 
 </Project>
