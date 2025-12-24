@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Custom Metadata Manager</title>
+</head>
+<body>
+  <div class="pageWrapper">
+
+    <h1>Custom Metadata Manager</h1>
+
+    <section>
+      <h2>Presets</h2>
+      <div>
+        <input id="newTag" placeholder="New tag" />
+        <button id="addTagBtn">Add Tag</button>
+      </div>
+      <div>
+        <input id="newGenre" placeholder="New genre" />
+        <button id="addGenreBtn">Add Genre</button>
+      </div>
+
+      <h3>Saved Tags</h3>
+      <ul id="savedTags"></ul>
+
+      <h3>Saved Genres</h3>
+      <ul id="savedGenres"></ul>
+    </section>
+
+    <hr/>
+
+    <section>
+      <h2>Assign to Show</h2>
+      <input id="searchTerm" placeholder="Search (e.g. One Piece)" />
+      <button id="searchBtn">Search</button>
+
+      <ul id="searchResults"></ul>
+
+      <div id="itemPanel" style="display:none;">
+        <h3 id="itemTitle"></h3>
+
+        <div>
+          <h4>Tags</h4>
+          <select id="tagSelect"></select>
+          <button id="addTagToItemBtn">+</button>
+          <ul id="itemTags"></ul>
+        </div>
+
+        <div>
+          <h4>Genres</h4>
+          <select id="genreSelect"></select>
+          <button id="addGenreToItemBtn">+</button>
+          <ul id="itemGenres"></ul>
+        </div>
+
+        <button id="saveApplyBtn">Save + Apply</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="configPage.js"></script>
+</body>
+</html>
