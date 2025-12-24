@@ -1,0 +1,137 @@
+
+# Jellyfin Tag and Genre Manager Plugin
+
+## Project Overview
+The Jellyfin Tag and Genre Manager is a custom plugin designed for the Jellyfin Media Server. It allows users to organize, manage, and assign custom tags and genres to their media items (such as movies, TV shows, and episodes) within Jellyfin. The plugin aims to improve the flexibility of organizing media by providing a user-friendly interface for adding and managing metadata beyond the default options provided by Jellyfin.
+
+### Key Features
+1. Custom Metadata Management:
+   - Users can create, edit, and store tags and genres as presets.
+   - Tags and genres are displayed in a dropdown menu for easy assignment to shows and movies.
+
+2. Assign Tags/Genres to Media:
+   - Users can select an item (movie/show) and assign tags/genres without typing them manually. Instead, they can choose from predefined lists using + Add buttons.
+
+3. Persistent Data Storage:
+   - The plugin stores tag and genre data in JSON files (presets.json and assignments.json) inside the Jellyfin plugin configuration folder, making it persistent across Jellyfin server restarts.
+
+4. Metadata Synchronization:
+   - When tags and genres are applied to a media item, they are written into the Jellyfin database, and the item is re-indexed to ensure changes are reflected immediately in the Jellyfin UI (e.g., filtering and browsing by tags/genres).
+
+5. Search and Assign:
+   - A search interface allows users to search for a show or movie by name. Once an item is selected, users can see and modify its current tags and genres.
+
+## Implementation Details
+
+### 1. Core Services  
+The plugin is structured around three core services:
+
+- **PresetStore**: Manages the saved tags and genres, ensuring that they are available in a predefined list for easy selection.
+- **AssignmentStore**: Stores the metadata for each media item, specifically the tags and genres assigned to each item (stored by ItemId).
+- **ApplyService**: Applies the selected tags and genres to the media items and persists the changes into the Jellyfin database.
+
+### 2. File Structure
+
+The plugin follows the typical structure for Jellyfin plugins, using the official Jellyfin plugin template:
+
+```
+Jellyfin.Plugin.CustomMetadata/
+├── Configuration/
+│   ├── CustomMetaConfigurationPage.cs
+│   └── PluginConfiguration.cs
+├── Controllers/
+│   └── CustomMetaController.cs
+├── Services/
+│   ├── ApplyService.cs
+│   ├── AssignmentStore.cs
+│   └── PresetStore.cs
+└── Plugin.cs
+```
+
+- **`Plugin.cs`**: Entry point of the plugin, where dependencies are registered and services are configured.
+- **`Configuration/`**: Contains configuration-related files, including the custom metadata management UI (CustomMetaConfigurationPage.cs).
+- **`Controllers/`**: Defines the plugin’s API endpoints (e.g., for handling presets and item assignments).
+- **`Services/`**: Contains the core logic for managing tags/genres (PresetStore, AssignmentStore, and ApplyService).
+
+### 3. Data Storage
+- **`presets.json`**: Stores the available tags and genres as predefined lists.
+- **`assignments.json`**: Stores the tags and genres assigned to each media item, keyed by ItemId.
+
+```json
+// presets.json
+{
+  "Tags": ["Anime", "Family Friendly", "Mind-Bending", "Cult Classic"],
+  "Genres": ["Cyberpunk", "Mecha", "Supernatural", "Slice of Life"]
+}
+```
+
+```json
+// assignments.json
+{
+  "3f0f7b36-9c9d-4c17-8c1a-6e4a2b9c4d91": {
+    "Tags": ["Anime", "Mind-Bending"],
+    "Genres": ["Cyberpunk", "Psychological"]
+  }
+}
+```
+
+The JSON files are stored in Jellyfin's plugin configuration path, ensuring that the data is persistent and easy to back up.
+
+### 4. User Interface
+- **Custom Configuration Page**: The plugin includes an embedded configuration page in Jellyfin’s web UI where users can manage tags and genres.
+- **Tag/Genre Assignment Interface**: Users can search for media items and assign tags and genres via an easy-to-use UI with + Add buttons.
+
+## Jellyfin Version Compatibility
+
+### Supported Versions: Jellyfin 10.10.3  
+The plugin is designed to be compatible with Jellyfin 10.10.x series, particularly 10.10.3, and may need adjustments for compatibility with future versions.
+
+#### Key API Changes in 10.10.x
+- In Jellyfin 10.10.x, the **`ILibraryManager`** and **`UpdateItem`** methods remain stable, allowing the plugin to modify item metadata effectively.
+- The `PluginConfiguration` and `IPluginConfigurationPage` interfaces are supported for custom configuration pages within the Jellyfin dashboard.
+- No significant API changes to the metadata management or plugin system from Jellyfin 10.8.x, making this plugin backward-compatible within this range.
+
+#### Package References (10.10.3)
+Ensure the plugin’s `.csproj` includes the correct references for Jellyfin 10.10.3:
+
+```xml
+<PackageReference Include="Jellyfin.Plugin" Version="10.10.*" />
+<PackageReference Include="MediaBrowser.Controller" Version="10.10.*" />
+<PackageReference Include="MediaBrowser.Common" Version="10.10.*" />
+<PackageReference Include="Jellyfin.Model" Version="10.10.*" />
+```
+
+## How to Build and Install the Plugin
+
+### Building the Plugin
+
+1. **Restore Dependencies**:
+   ```bash
+   dotnet restore
+   ```
+
+2. **Build the Plugin**:
+   ```bash
+   dotnet build -c Release
+   ```
+
+3. **Copy the DLL to Jellyfin Plugin Directory**:
+   Copy the generated DLL and dependencies to the Jellyfin plugin directory (`<JellyfinData>\plugins\CustomMetadata`).
+
+4. **Restart Jellyfin** to load the new plugin.
+
+## Installation and Usage
+1. **Install Plugin**: Download or clone the repo to your machine. Build the plugin and copy it to Jellyfin’s plugin directory.
+2. **Restart Jellyfin**: The plugin should automatically appear in the Jellyfin Dashboard → Plugins section.
+3. **Configure and Use**: Use the configuration page to add and manage tags and genres. Then, search for media items and assign them tags/genres via the new interface.
+
+## Future Improvements
+1. **Switch to SQLite**: The JSON-based storage will be replaced with SQLite for better scalability in larger libraries.
+2. **Batch Operations**: Add the ability to apply tags/genres to multiple media items (e.g., all seasons of a show).
+3. **Advanced UI**: Enhance the user interface to support additional features like bulk tag removal or editing.
+
+## License
+MIT License. Feel free to fork and modify the project for personal or commercial use.
+
+## Conclusion
+The Jellyfin Tag and Genre Manager plugin enhances the flexibility and usability of Jellyfin’s metadata system, allowing users to manage and assign tags and genres efficiently. With its simple, intuitive UI and persistent storage, it provides a seamless way to organize your media library in Jellyfin.

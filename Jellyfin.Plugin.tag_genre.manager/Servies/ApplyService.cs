@@ -1,5 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Jellyfin.Plugin.CustomMeta.Configuration;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Entities;
+using Jellyfin.Data.Enums;
+
 
 namespace Jellyfin.Plugin.CustomMeta.Services;
 
@@ -12,7 +20,7 @@ public class ApplyService
         _libraryManager = libraryManager;
     }
 
-    public void ApplyToItem(Guid itemId, string[] tags, string[] genres)
+    public async Task ApplyToItem(Guid itemId, string[] tags, string[] genres)
     {
         var item = _libraryManager.GetItemById(itemId);
         if (item == null)
@@ -23,10 +31,11 @@ public class ApplyService
         item.Genres = genres?.Distinct().ToArray() ?? Array.Empty<string>();
 
         // Persist + reindex (THIS is the key call)
-        _libraryManager.UpdateItem(
+        await _libraryManager.UpdateItemAsync(
             item,
             item.GetParent(),
-            ItemUpdateType.MetadataEdit
+            ItemUpdateType.MetadataEdit,
+            CancellationToken.None
         );
     }
 
@@ -40,7 +49,7 @@ public class ApplyService
             .GetItemList(new InternalItemsQuery
             {
                 SearchTerm = term,
-                IncludeItemTypes = new[] { "Series", "Movie" },
+                IncludeItemTypes = new[] { BaseItemKind.Series, BaseItemKind.Movie },
                 Recursive = true
             })
             .Select(i => new

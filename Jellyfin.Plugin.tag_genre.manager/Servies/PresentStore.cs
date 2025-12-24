@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.Json;
 using Jellyfin.Plugin.CustomMeta;
 using MediaBrowser.Common.Configuration;
@@ -7,7 +11,7 @@ namespace Jellyfin.Plugin.CustomMeta.Services;
 public class PresetStore
 {
     private readonly string _filePath;
-    private PresetData _data;
+    private PresetData _data = new();
 
     public PresetStore(IApplicationPaths paths)
     {

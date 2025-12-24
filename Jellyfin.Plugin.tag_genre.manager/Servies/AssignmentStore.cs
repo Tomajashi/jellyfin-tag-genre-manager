@@ -1,4 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.Json;
+using Jellyfin.Plugin.CustomMeta.Configuration;
+using MediaBrowser.Controller.Library;
+using MediaBrowser.Controller.Entities;
 using MediaBrowser.Common.Configuration;
 
 namespace Jellyfin.Plugin.CustomMeta.Services;
@@ -6,7 +13,7 @@ namespace Jellyfin.Plugin.CustomMeta.Services;
 public class AssignmentStore
 {
     private readonly string _filePath;
-    private Dictionary<Guid, Assignment> _assignments;
+    private Dictionary<Guid, Assignment> _assignments = new();
 
     public AssignmentStore(IApplicationPaths paths)
     {

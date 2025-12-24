@@ -1,5 +1,8 @@
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MediaBrowser.Controller.Library;
+using Jellyfin.Plugin.CustomMeta.Services;
 
 namespace Jellyfin.Plugin.CustomMeta.Controllers;
 
@@ -77,12 +80,12 @@ public class CustomMetaController : ControllerBase
     public record AssignmentDto(string[] Tags, string[] Genres);
 
     [HttpPost("item/{id}")]
-    public IActionResult SaveAndApply(string id, [FromBody] AssignmentDto dto)
+    public async Task<IActionResult> SaveAndApply(string id, [FromBody] AssignmentDto dto)
     {
         var guid = Guid.Parse(id);
         _assignmentStore.Set(guid, dto.Tags, dto.Genres);
 
-        _applyService.ApplyToItem(guid, dto.Tags, dto.Genres);
+        await _applyService.ApplyToItem(guid, dto.Tags, dto.Genres);
         return NoContent();
     }
 }

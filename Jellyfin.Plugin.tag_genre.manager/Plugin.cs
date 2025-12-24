@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Jellyfin.Plugin.Template.Configuration;
-using MediaBrowser.Common.Configuration;
+using System.Linq;
+using Jellyfin.Plugin.CustomMeta.Configuration;
+using MediaBrowser.Controller.Library;
+using MediaBrowser.Controller.Entities;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Model.Plugins;
+using MediaBrowser.Common.Configuration;
 using MediaBrowser.Model.Serialization;
 
-namespace Jellyfin.Plugin.Template;
+
+namespace Jellyfin.Plugin.CustomMeta;
 
 /// <summary>
 /// The main plugin.
