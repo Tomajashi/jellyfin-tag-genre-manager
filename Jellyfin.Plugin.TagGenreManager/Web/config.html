@@ -3,289 +3,703 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Tag & Genre Manager</title>
+    <title>Tag &amp; Genre Manager</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <!-- Version: 2.0.0 - Search Fix with Client-Side Filtering -->
+    <!-- Version: 3.0.0 - Alphabetical Order, Pre-selection, Untagged Scanner -->
     <style>
-        .tab-button.active {
-            font-weight: bold;
-            border-bottom: 2px solid var(--theme-primary-color);
+        /* ── Tab bar ── */
+        .tgm-tabs {
+            display: flex;
+            gap: 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            margin-bottom: 24px;
         }
+        .tgm-tab-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            opacity: 0.6;
+            border-bottom: 3px solid transparent;
+            transition: opacity 0.2s, border-color 0.2s;
+        }
+        .tgm-tab-btn:hover { opacity: 0.85; }
+        .tgm-tab-btn.active {
+            opacity: 1;
+            font-weight: 600;
+            border-bottom-color: var(--theme-primary-color, #00a4dc);
+        }
+
+        /* ── Section headers ── */
+        .tgm-section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        /* ── Add row ── */
+        .tgm-add-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+        .tgm-add-row > div { flex-grow: 1; }
+
+        /* ── List ── */
+        .tgm-list {
+            max-height: 320px;
+            overflow-y: auto;
+            border-radius: 4px;
+        }
+        .tgm-list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .tgm-list-item:last-child { border-bottom: none; }
+        .tgm-item-name {
+            font-size: 0.93rem;
+        }
+        .tgm-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-right: 6px;
+            background: var(--theme-primary-color, #00a4dc);
+            color: #fff;
+        }
+
+        /* ── Search results ── */
+        .tgm-search-result {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .tgm-search-result:hover { background: rgba(255,255,255,0.06); }
+        .tgm-search-result.selected { background: rgba(0,164,220,0.15); }
+        .tgm-type-pill {
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.12);
+            white-space: nowrap;
+        }
+
+        /* ── Editor ── */
+        .tgm-editor {
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 20px;
+            margin-top: 10px;
+        }
+        .tgm-editor-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        .tgm-editor-col {
+            flex: 1;
+            min-width: 200px;
+        }
+        .tgm-checkbox-list {
+            max-height: 320px;
+            overflow-y: auto;
+        }
+        .tgm-checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .tgm-checkbox-row:last-child { border-bottom: none; }
+
+        /* ── Untagged tab ── */
+        .tgm-lib-select-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+        .tgm-lib-select-row > div { flex-grow: 1; }
+
+        .tgm-untagged-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 9px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .tgm-untagged-item:hover { background: rgba(255,255,255,0.05); }
+        .tgm-untagged-item.selected { background: rgba(0,164,220,0.15); }
+        .tgm-untagged-list {
+            max-height: 380px;
+            overflow-y: auto;
+        }
+        .tgm-count-badge {
+            display: inline-block;
+            background: var(--theme-primary-color, #00a4dc);
+            color: #fff;
+            border-radius: 12px;
+            padding: 2px 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        /* ── Empty state ── */
+        .tgm-empty {
+            text-align: center;
+            padding: 30px 0;
+            opacity: 0.5;
+            font-style: italic;
+        }
+
+        /* ── Status message ── */
+        .tgm-status {
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 14px;
+            font-size: 0.88rem;
+            display: none;
+        }
+        .tgm-status.success { background: rgba(76,175,80,0.15); color: #81c784; display: block; }
+        .tgm-status.error   { background: rgba(244,67,54,0.15);  color: #e57373; display: block; }
+        .tgm-status.info    { background: rgba(0,164,220,0.12);  color: #4fc3f7; display: block; }
+
+        /* utilities */
+        .tgm-mt { margin-top: 36px; }
+        .tgm-mb { margin-bottom: 14px; }
     </style>
 </head>
 
 <body>
-    <div id="TagGenreManagerConfigurationPage" data-role="page" class="page type-interior pluginConfigurationPage"
-        data-require="emby-input,emby-button,emby-select,emby-checkbox">
+    <div id="TagGenreManagerConfigurationPage" data-role="page"
+         class="page type-interior pluginConfigurationPage"
+         data-require="emby-input,emby-button,emby-select,emby-checkbox">
         <div data-role="content">
             <div class="content-primary">
-                <h1>Custom Tag & Genre Manager</h1>
+                <h1>Custom Tag &amp; Genre Manager</h1>
 
-                <div class="section-tabs"
-                    style="width: 100%; text-align: left; margin-bottom: 20px; border-bottom: 1px solid #444;">
-                    <button is="emby-button" class="button-link tab-button active" id="btnTabDef">Definitions</button>
-                    <button is="emby-button" class="button-link tab-button" id="btnTabAssign">Assignment</button>
+                <!-- ── TAB BAR ── -->
+                <div class="tgm-tabs">
+                    <button class="tgm-tab-btn active" id="btnTabDef">📋 Definitions</button>
+                    <button class="tgm-tab-btn"        id="btnTabAssign">🎬 Assignment</button>
+                    <button class="tgm-tab-btn"        id="btnTabUntagged">🔍 Untagged Media</button>
                 </div>
 
-                <!-- DEFINITIONS TAB -->
+                <!-- ════════════════════════════════════
+                     TAB 1 – DEFINITIONS
+                     ════════════════════════════════════ -->
                 <div id="tabDefinitions">
-                    <p>Manage your custom tags and genres here.</p>
+                    <p style="margin-bottom:20px;">Define the canonical tags and genres available for assignment. Items are sorted alphabetically.</p>
 
+                    <!-- Tags -->
                     <div class="section">
                         <h2>Tags</h2>
-                        <div style="display: flex; gap: 10px; align-items: flex-end; margin-bottom: 20px;">
-                            <div style="flex-grow: 1;">
+                        <div class="tgm-add-row">
+                            <div>
                                 <input type="text" id="txtNewTag" is="emby-input" label="New Tag Name" />
                             </div>
-                            <button is="emby-button" type="button" class="raised button-submit"
-                                id="btnAddTag">Add</button>
+                            <button is="emby-button" type="button" class="raised button-submit" id="btnAddTag">Add</button>
                         </div>
-                        <div class="paperList" id="listTags" style="max-height: 300px; overflow-y: auto;"></div>
+                        <div id="statusTag" class="tgm-status"></div>
+                        <div class="paperList tgm-list" id="listTags"></div>
                     </div>
 
-                    <div class="section" style="margin-top: 40px;">
+                    <!-- Genres -->
+                    <div class="section tgm-mt">
                         <h2>Genres</h2>
-                        <div style="display: flex; gap: 10px; align-items: flex-end; margin-bottom: 20px;">
-                            <div style="flex-grow: 1;">
+                        <div class="tgm-add-row">
+                            <div>
                                 <input type="text" id="txtNewGenre" is="emby-input" label="New Genre Name" />
                             </div>
-                            <button is="emby-button" type="button" class="raised button-submit"
-                                id="btnAddGenre">Add</button>
+                            <button is="emby-button" type="button" class="raised button-submit" id="btnAddGenre">Add</button>
                         </div>
-                        <div class="paperList" id="listGenres" style="max-height: 300px; overflow-y: auto;"></div>
+                        <div id="statusGenre" class="tgm-status"></div>
+                        <div class="paperList tgm-list" id="listGenres"></div>
                     </div>
                 </div>
 
-                <!-- ASSIGNMENT TAB -->
-                <div id="tabAssignment" style="display: none;">
+                <!-- ════════════════════════════════════
+                     TAB 2 – ASSIGNMENT
+                     ════════════════════════════════════ -->
+                <div id="tabAssignment" style="display:none;">
                     <h2>Search Media</h2>
-                    <div style="display: flex; gap: 10px; align-items: flex-end; margin-bottom: 10px;">
-                        <div style="flex-grow: 1;">
-                            <input type="text" id="txtSearch" is="emby-input" label="Search Movies, Series..." />
+                    <div class="tgm-add-row">
+                        <div>
+                            <input type="text" id="txtSearch" is="emby-input" label="Search Movies, Series…" />
                         </div>
                         <button is="emby-button" class="raised" id="btnSearch">Search</button>
                     </div>
-                    <div id="listSearchResults" class="paperList"
-                        style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;"></div>
 
-                    <div id="editorArea" style="display:none; border-top: 1px solid #444; padding-top: 20px;">
-                        <h2 id="selectedItemName">Editing: ...</h2>
-                        <div style="display:flex; flex-wrap: wrap; gap: 40px;">
-                            <div style="flex:1; min-width: 200px;">
-                                <h3>Assigned Tags</h3>
-                                <div id="editorTags" style="max-height: 300px; overflow-y: auto;"></div>
+                    <div id="listSearchResults" class="paperList"
+                         style="max-height:220px; overflow-y:auto; margin-bottom:20px;"></div>
+
+                    <!-- Editor – shown after selecting a media item -->
+                    <div id="editorArea" class="tgm-editor" style="display:none;">
+                        <h2 id="selectedItemName">Editing: …</h2>
+                        <p id="editorHint" style="opacity:.6; font-size:.88rem; margin-bottom:16px;">
+                            Checkboxes pre-ticked match tags/genres already saved on this item.
+                        </p>
+                        <div id="statusSave" class="tgm-status"></div>
+                        <div class="tgm-editor-columns">
+                            <div class="tgm-editor-col">
+                                <h3>Tags</h3>
+                                <div class="tgm-checkbox-list" id="editorTags"></div>
                             </div>
-                            <div style="flex:1; min-width: 200px;">
-                                <h3>Assigned Genres</h3>
-                                <div id="editorGenres" style="max-height: 300px; overflow-y: auto;"></div>
+                            <div class="tgm-editor-col">
+                                <h3>Genres</h3>
+                                <div class="tgm-checkbox-list" id="editorGenres"></div>
                             </div>
                         </div>
                         <br />
-                        <button is="emby-button" class="raised button-submit" id="btnSaveAssignment">Save
-                            Changes</button>
+                        <button is="emby-button" class="raised button-submit" id="btnSaveAssignment">Save Changes</button>
                     </div>
                 </div>
 
-            </div>
-        </div>
+                <!-- ════════════════════════════════════
+                     TAB 3 – UNTAGGED MEDIA
+                     ════════════════════════════════════ -->
+                <div id="tabUntagged" style="display:none;">
+                    <h2>Untagged Media Scanner</h2>
+                    <p style="opacity:.7; margin-bottom:20px;">
+                        Select a library to scan. Items that have <strong>no matching tag</strong> and
+                        <strong>no matching genre</strong> from your defined lists will be shown below.
+                        Click any item to jump directly to its assignment editor.
+                    </p>
+
+                    <div class="tgm-lib-select-row">
+                        <div>
+                            <select id="selLibrary" is="emby-select" label="Select Library">
+                                <option value="">-- Choose a library --</option>
+                            </select>
+                        </div>
+                        <button is="emby-button" class="raised" id="btnScanUntagged">Scan</button>
+                    </div>
+
+                    <div id="statusUntagged" class="tgm-status"></div>
+
+                    <div id="untaggedResultsHeader" style="display:none; margin-bottom:10px;">
+                        <strong>Untagged items:</strong>
+                        <span class="tgm-count-badge" id="untaggedCount">0</span>
+                    </div>
+
+                    <div class="paperList tgm-untagged-list" id="listUntagged"></div>
+                </div>
+
+            </div><!-- /content-primary -->
+        </div><!-- /content -->
+
+        <!-- ══════════ JAVASCRIPT ══════════ -->
         <script type="text/javascript">
-            (function () {
-                console.log('Tag & Genre Manager v2.0.0 - Search Fix Activated');
-                var pluginId = '9557C486-0D04-4C3D-8A3E-965313936357';
-                var pageId = '#TagGenreManagerConfigurationPage';
+        (function () {
+            'use strict';
 
-                var cachedTags = [];
-                var cachedGenres = [];
-                var currentItem = null;
+            console.log('[TagGenreManager] v3.0.0 loaded');
 
-                function getUrl(path) {
-                    return ApiClient.getUrl('TagGenreManager/' + path);
+            var pageId      = '#TagGenreManagerConfigurationPage';
+            var cachedTags  = [];   // sorted list of defined tags
+            var cachedGenres = [];  // sorted list of defined genres
+            var currentItem = null; // item currently loaded in the editor
+
+            // ── Helpers ──────────────────────────────────────────────────────
+            function qs(sel)  { return document.querySelector(pageId + ' ' + sel); }
+            function qsa(sel) { return document.querySelectorAll(pageId + ' ' + sel); }
+
+            function getUrl(path) {
+                return ApiClient.getUrl('TagGenreManager/' + path);
+            }
+
+            function showStatus(id, type, msg) {
+                var el = qs('#' + id);
+                el.className = 'tgm-status ' + type;
+                el.textContent = msg;
+                if (type === 'success') {
+                    setTimeout(function () { el.className = 'tgm-status'; }, 3500);
                 }
+            }
 
-                function loadData() {
-                    ApiClient.getJSON(getUrl('Tags')).then(function (t) {
-                        cachedTags = t;
-                        renderTags(t);
-                    });
-                    ApiClient.getJSON(getUrl('Genres')).then(function (g) {
-                        cachedGenres = g;
-                        renderGenres(g);
-                    });
-                }
-
-                function renderTags(tags) {
-                    var html = tags.map(function (t) {
-                        return '<div class="listItem">' +
-                            '<div class="listItemBody"><div class="listItemBodyText">' + t.Name + '</div></div>' +
-                            '<button type="button" class="fab mini btnDeleteTag" data-id="' + t.Id + '"><i class="md-icon">delete</i></button>' +
-                            '</div>';
-                    }).join('');
-                    document.querySelector(pageId + ' #listTags').innerHTML = html;
-
-                    document.querySelectorAll(pageId + ' .btnDeleteTag').forEach(function (btn) {
-                        btn.addEventListener('click', function () { deleteTag(this.getAttribute('data-id')); });
-                    });
-                }
-
-                function renderGenres(genres) {
-                    var html = genres.map(function (g) {
-                        return '<div class="listItem">' +
-                            '<div class="listItemBody"><div class="listItemBodyText">' + g.Name + '</div></div>' +
-                            '<button type="button" class="fab mini btnDeleteGenre" data-id="' + g.Id + '"><i class="md-icon">delete</i></button>' +
-                            '</div>';
-                    }).join('');
-                    document.querySelector(pageId + ' #listGenres').innerHTML = html;
-
-                    document.querySelectorAll(pageId + ' .btnDeleteGenre').forEach(function (btn) {
-                        btn.addEventListener('click', function () { deleteGenre(this.getAttribute('data-id')); });
-                    });
-                }
-
-                // CRUD
-                function addTag() {
-                    var txt = document.querySelector(pageId + ' #txtNewTag');
-                    if (!txt.value) return;
-                    ApiClient.ajax({ type: 'POST', url: getUrl('Tags'), data: JSON.stringify({ Name: txt.value }), contentType: 'application/json' })
-                        .then(function () { txt.value = ''; loadData(); });
-                }
-                function deleteTag(id) {
-                    ApiClient.ajax({ type: 'DELETE', url: getUrl('Tags/' + id) }).then(loadData);
-                }
-                function addGenre() {
-                    var txt = document.querySelector(pageId + ' #txtNewGenre');
-                    if (!txt.value) return;
-                    ApiClient.ajax({ type: 'POST', url: getUrl('Genres'), data: JSON.stringify({ Name: txt.value }), contentType: 'application/json' })
-                        .then(function () { txt.value = ''; loadData(); });
-                }
-                function deleteGenre(id) {
-                    ApiClient.ajax({ type: 'DELETE', url: getUrl('Genres/' + id) }).then(loadData);
-                }
-
-                // TABS
-                function initTabs() {
-                    var btnDef = document.querySelector(pageId + ' #btnTabDef');
-                    var btnAssign = document.querySelector(pageId + ' #btnTabAssign');
-                    var tabDef = document.querySelector(pageId + ' #tabDefinitions');
-                    var tabAssign = document.querySelector(pageId + ' #tabAssignment');
-
-                    btnDef.addEventListener('click', function () {
-                        btnDef.classList.add('active'); btnAssign.classList.remove('active');
-                        tabDef.style.display = 'block'; tabAssign.style.display = 'none';
-                    });
-                    btnAssign.addEventListener('click', function () {
-                        btnAssign.classList.add('active'); btnDef.classList.remove('active');
-                        tabAssign.style.display = 'block'; tabDef.style.display = 'none';
-                    });
-                }
-
-                // ASSIGNMENT
-                function searchMedia() {
-                    var term = document.querySelector(pageId + ' #txtSearch').value;
-                    if (!term) return;
-                    Dashboard.showLoadingMsg();
-
-                    var userId = ApiClient.getCurrentUserId();
-                    ApiClient.getItems(userId, {
-                        SearchTerm: term,
-                        Recursive: true,
-                        IncludeItemTypes: "Movie,Series,BoxSet",
-                        Fields: "ProductionYear,Type",
-                        Limit: 50
-                    }).then(function (result) {
-                        Dashboard.hideLoadingMsg();
-                        // Filter out any non-media items (folders, collections, etc.)
-                        var validItems = result.Items.filter(function (item) {
-                            return item.Type === 'Movie' || item.Type === 'Series' || item.Type === 'BoxSet';
-                        });
-                        renderSearchResults(validItems.slice(0, 20));
-                    }).catch(function (err) {
-                        Dashboard.hideLoadingMsg();
-                        console.error('Search error:', err);
-                        renderSearchResults([]);
-                    });
-                }
-
-                function renderSearchResults(items) {
-                    var html = items.map(function (item) {
-                        return '<div class="listItem searchResultItem" data-id="' + item.Id + '" style="cursor:pointer; background: rgba(0,0,0,0.2); padding: 5px; margin: 2px;">' +
-                            '<div class="listItemBody"><div class="listItemBodyText">' + item.Name + ' (' + (item.ProductionYear || '?') + ')</div></div>' +
-                            '</div>';
-                    }).join('');
-                    document.querySelector(pageId + ' #listSearchResults').innerHTML = html;
-
-                    document.querySelectorAll(pageId + ' .searchResultItem').forEach(function (div) {
-                        div.addEventListener('click', function () { loadItemForEdit(this.getAttribute('data-id')); });
-                    });
-                }
-
-                function loadItemForEdit(itemId) {
-                    Dashboard.showLoadingMsg();
-                    ApiClient.getItem(ApiClient.getCurrentUserId(), itemId).then(function (item) {
-                        currentItem = item;
-                        document.querySelector(pageId + ' #selectedItemName').innerText = "Editing: " + item.Name;
-                        document.querySelector(pageId + ' #editorArea').style.display = 'block';
-
-                        // Render Checkboxes
-                        renderCheckboxes('editorTags', cachedTags, item.Tags || []);
-                        renderCheckboxes('editorGenres', cachedGenres, item.Genres || []);
-
-                        Dashboard.hideLoadingMsg();
-                    });
-                }
-
-                function renderCheckboxes(containerId, definedItems, itemValues) {
-                    var html = definedItems.map(function (def) {
-                        var isChecked = itemValues.indexOf(def.Name) !== -1 ? 'checked' : '';
-                        return '<label style="display:block; margin: 5px 0;">' +
-                            '<input type="checkbox" is="emby-checkbox" class="chk-' + containerId + '" value="' + def.Name + '" ' + isChecked + ' /> ' +
-                            '<span>' + def.Name + '</span></label>';
-                    }).join('');
-                    document.querySelector(pageId + ' #' + containerId).innerHTML = html;
-                }
-
-                function saveAssignment() {
-                    if (!currentItem) return;
-
-                    var newTags = [];
-                    document.querySelectorAll(pageId + ' .chk-editorTags:checked').forEach(function (c) { newTags.push(c.value); });
-
-                    var newGenres = [];
-                    document.querySelectorAll(pageId + ' .chk-editorGenres:checked').forEach(function (c) { newGenres.push(c.value); });
-
-                    currentItem.Tags = newTags;
-                    currentItem.Genres = newGenres;
-
-                    Dashboard.showLoadingMsg();
-                    ApiClient.updateItem(currentItem).then(function () {
-                        Dashboard.hideLoadingMsg();
-                        Dashboard.alert('Saved!');
-                    }, function (err) {
-                        Dashboard.hideLoadingMsg();
-                        Dashboard.alert({ message: 'Error saving: ' + err });
-                    });
-                }
-
-                document.querySelector(pageId).addEventListener('pageshow', function () {
-                    loadData();
-                    initTabs();
-
-                    var btnAddTag = document.querySelector(pageId + ' #btnAddTag');
-                    btnAddTag.removeEventListener('click', addTag); btnAddTag.addEventListener('click', addTag);
-
-                    var btnAddGenre = document.querySelector(pageId + ' #btnAddGenre');
-                    btnAddGenre.removeEventListener('click', addGenre); btnAddGenre.addEventListener('click', addGenre);
-
-                    var btnSearch = document.querySelector(pageId + ' #btnSearch');
-                    btnSearch.removeEventListener('click', searchMedia); btnSearch.addEventListener('click', searchMedia);
-
-                    var btnSave = document.querySelector(pageId + ' #btnSaveAssignment');
-                    btnSave.removeEventListener('click', saveAssignment); btnSave.addEventListener('click', saveAssignment);
+            // ── Load definitions (tags + genres) ─────────────────────────────
+            function loadData() {
+                return Promise.all([
+                    ApiClient.getJSON(getUrl('Tags')),
+                    ApiClient.getJSON(getUrl('Genres'))
+                ]).then(function (results) {
+                    // API already returns them sorted; store & render
+                    cachedTags   = results[0];
+                    cachedGenres = results[1];
+                    renderDefinedTags(cachedTags);
+                    renderDefinedGenres(cachedGenres);
                 });
-            })();
+            }
+
+            // ── Definitions – Tags ────────────────────────────────────────────
+            function renderDefinedTags(tags) {
+                if (!tags.length) {
+                    qs('#listTags').innerHTML = '<div class="tgm-empty">No tags defined yet.</div>';
+                    return;
+                }
+                var html = tags.map(function (t) {
+                    return '<div class="tgm-list-item">' +
+                        '<span class="tgm-item-name">' + escHtml(t.Name) + '</span>' +
+                        '<button type="button" class="fab mini btnDeleteTag" data-id="' + t.Id + '" title="Delete">' +
+                            '<i class="md-icon">delete</i>' +
+                        '</button></div>';
+                }).join('');
+                qs('#listTags').innerHTML = html;
+                qsa('.btnDeleteTag').forEach(function (btn) {
+                    btn.addEventListener('click', function () { deleteTag(this.getAttribute('data-id')); });
+                });
+            }
+
+            function addTag() {
+                var txt = qs('#txtNewTag');
+                var name = txt.value.trim();
+                if (!name) return;
+                ApiClient.ajax({
+                    type: 'POST', url: getUrl('Tags'),
+                    data: JSON.stringify({ Name: name }),
+                    contentType: 'application/json'
+                }).then(function () {
+                    txt.value = '';
+                    showStatus('statusTag', 'success', '✔ Tag "' + name + '" added.');
+                    loadData();
+                }).catch(function (err) {
+                    var msg = (err && err.status === 409) ? 'Tag already exists.' : 'Error adding tag.';
+                    showStatus('statusTag', 'error', msg);
+                });
+            }
+
+            function deleteTag(id) {
+                ApiClient.ajax({ type: 'DELETE', url: getUrl('Tags/' + id) })
+                    .then(loadData)
+                    .catch(function () { showStatus('statusTag', 'error', 'Error deleting tag.'); });
+            }
+
+            // ── Definitions – Genres ──────────────────────────────────────────
+            function renderDefinedGenres(genres) {
+                if (!genres.length) {
+                    qs('#listGenres').innerHTML = '<div class="tgm-empty">No genres defined yet.</div>';
+                    return;
+                }
+                var html = genres.map(function (g) {
+                    return '<div class="tgm-list-item">' +
+                        '<span class="tgm-item-name">' + escHtml(g.Name) + '</span>' +
+                        '<button type="button" class="fab mini btnDeleteGenre" data-id="' + g.Id + '" title="Delete">' +
+                            '<i class="md-icon">delete</i>' +
+                        '</button></div>';
+                }).join('');
+                qs('#listGenres').innerHTML = html;
+                qsa('.btnDeleteGenre').forEach(function (btn) {
+                    btn.addEventListener('click', function () { deleteGenre(this.getAttribute('data-id')); });
+                });
+            }
+
+            function addGenre() {
+                var txt = qs('#txtNewGenre');
+                var name = txt.value.trim();
+                if (!name) return;
+                ApiClient.ajax({
+                    type: 'POST', url: getUrl('Genres'),
+                    data: JSON.stringify({ Name: name }),
+                    contentType: 'application/json'
+                }).then(function () {
+                    txt.value = '';
+                    showStatus('statusGenre', 'success', '✔ Genre "' + name + '" added.');
+                    loadData();
+                }).catch(function (err) {
+                    var msg = (err && err.status === 409) ? 'Genre already exists.' : 'Error adding genre.';
+                    showStatus('statusGenre', 'error', msg);
+                });
+            }
+
+            function deleteGenre(id) {
+                ApiClient.ajax({ type: 'DELETE', url: getUrl('Genres/' + id) })
+                    .then(loadData)
+                    .catch(function () { showStatus('statusGenre', 'error', 'Error deleting genre.'); });
+            }
+
+            // ── Assignment – Search ───────────────────────────────────────────
+            function searchMedia() {
+                var term = qs('#txtSearch').value.trim();
+                if (!term) return;
+                Dashboard.showLoadingMsg();
+                var userId = ApiClient.getCurrentUserId();
+                ApiClient.getItems(userId, {
+                    SearchTerm: term,
+                    Recursive: true,
+                    IncludeItemTypes: 'Movie,Series,BoxSet',
+                    Fields: 'ProductionYear,Type',
+                    Limit: 50
+                }).then(function (result) {
+                    Dashboard.hideLoadingMsg();
+                    var valid = (result.Items || []).filter(function (i) {
+                        return i.Type === 'Movie' || i.Type === 'Series' || i.Type === 'BoxSet';
+                    });
+                    renderSearchResults(valid.slice(0, 25));
+                }).catch(function (err) {
+                    Dashboard.hideLoadingMsg();
+                    console.error('[TagGenreManager] Search error:', err);
+                    renderSearchResults([]);
+                });
+            }
+
+            function renderSearchResults(items) {
+                if (!items.length) {
+                    qs('#listSearchResults').innerHTML = '<div class="tgm-empty">No results found.</div>';
+                    return;
+                }
+                var html = items.map(function (item) {
+                    return '<div class="tgm-search-result" data-id="' + item.Id + '">' +
+                        '<span class="tgm-type-pill">' + escHtml(item.Type) + '</span>' +
+                        '<span style="flex:1">' + escHtml(item.Name) + ' (' + (item.ProductionYear || '?') + ')</span>' +
+                    '</div>';
+                }).join('');
+                qs('#listSearchResults').innerHTML = html;
+                qsa('.tgm-search-result').forEach(function (div) {
+                    div.addEventListener('click', function () {
+                        qsa('.tgm-search-result').forEach(function (d) { d.classList.remove('selected'); });
+                        this.classList.add('selected');
+                        loadItemForEdit(this.getAttribute('data-id'));
+                    });
+                });
+            }
+
+            // ── Assignment – Editor ───────────────────────────────────────────
+            function loadItemForEdit(itemId) {
+                Dashboard.showLoadingMsg();
+                ApiClient.getItem(ApiClient.getCurrentUserId(), itemId).then(function (item) {
+                    currentItem = item;
+                    qs('#selectedItemName').textContent = 'Editing: ' + item.Name;
+                    qs('#editorArea').style.display = 'block';
+
+                    // cachedTags/Genres are already sorted alphabetically from the API.
+                    // item.Tags and item.Genres are the raw arrays on the Jellyfin item.
+                    // renderCheckboxes will pre-tick any name that appears in both sets.
+                    renderCheckboxes('editorTags',   cachedTags,   item.Tags   || []);
+                    renderCheckboxes('editorGenres', cachedGenres, item.Genres || []);
+
+                    Dashboard.hideLoadingMsg();
+                });
+            }
+
+            /**
+             * Renders a list of checkboxes for the editor.
+             * @param {string}   containerId   - DOM element id (without #)
+             * @param {Array}    definedItems  - [{Name, Id, …}] sorted list from plugin config
+             * @param {string[]} itemValues    - values already saved on the Jellyfin item
+             */
+            function renderCheckboxes(containerId, definedItems, itemValues) {
+                if (!definedItems.length) {
+                    qs('#' + containerId).innerHTML =
+                        '<div class="tgm-empty">No ' + containerId.replace('editor','').toLowerCase() + ' defined.</div>';
+                    return;
+                }
+
+                // Build a case-insensitive set of what the item already has
+                var currentSet = {};
+                (itemValues || []).forEach(function (v) {
+                    currentSet[v.toLowerCase()] = true;
+                });
+
+                var html = definedItems.map(function (def) {
+                    var isChecked = currentSet[def.Name.toLowerCase()] ? 'checked' : '';
+                    var checkedClass = isChecked ? ' style="font-weight:600;"' : '';
+                    return '<div class="tgm-checkbox-row">' +
+                        '<input type="checkbox" is="emby-checkbox"' +
+                            ' class="chk-' + containerId + '"' +
+                            ' value="' + escAttr(def.Name) + '" ' + isChecked + ' />' +
+                        '<label' + checkedClass + '>' + escHtml(def.Name) + '</label>' +
+                    '</div>';
+                }).join('');
+                qs('#' + containerId).innerHTML = html;
+            }
+
+            function saveAssignment() {
+                if (!currentItem) return;
+
+                var newTags = [];
+                qsa('.chk-editorTags:checked').forEach(function (c) { newTags.push(c.value); });
+
+                var newGenres = [];
+                qsa('.chk-editorGenres:checked').forEach(function (c) { newGenres.push(c.value); });
+
+                currentItem.Tags   = newTags;
+                currentItem.Genres = newGenres;
+
+                Dashboard.showLoadingMsg();
+                ApiClient.updateItem(currentItem).then(function () {
+                    Dashboard.hideLoadingMsg();
+                    showStatus('statusSave', 'success', '✔ Changes saved successfully!');
+                }, function (err) {
+                    Dashboard.hideLoadingMsg();
+                    showStatus('statusSave', 'error', 'Error saving: ' + (err || ''));
+                });
+            }
+
+            // ── Untagged Media ────────────────────────────────────────────────
+            function loadLibraries() {
+                ApiClient.getJSON(getUrl('Libraries')).then(function (libs) {
+                    var sel = qs('#selLibrary');
+                    sel.innerHTML = '<option value="">-- Choose a library --</option>';
+                    libs.forEach(function (lib) {
+                        var opt = document.createElement('option');
+                        opt.value = lib.Id;
+                        opt.textContent = lib.Name;
+                        sel.appendChild(opt);
+                    });
+                }).catch(function () {
+                    showStatus('statusUntagged', 'error', 'Could not load libraries.');
+                });
+            }
+
+            function scanUntagged() {
+                var libId = qs('#selLibrary').value;
+                if (!libId) {
+                    showStatus('statusUntagged', 'info', 'Please select a library first.');
+                    return;
+                }
+                Dashboard.showLoadingMsg();
+                qs('#listUntagged').innerHTML = '';
+                qs('#untaggedResultsHeader').style.display = 'none';
+
+                ApiClient.getJSON(getUrl('UntaggedMedia?libraryId=' + libId)).then(function (items) {
+                    Dashboard.hideLoadingMsg();
+                    qs('#statusUntagged').className = 'tgm-status';
+
+                    qs('#untaggedCount').textContent = items.length;
+                    qs('#untaggedResultsHeader').style.display = 'block';
+
+                    if (!items.length) {
+                        qs('#listUntagged').innerHTML =
+                            '<div class="tgm-empty">🎉 All items in this library have tags or genres assigned!</div>';
+                        return;
+                    }
+                    renderUntaggedList(items);
+                }).catch(function (err) {
+                    Dashboard.hideLoadingMsg();
+                    console.error('[TagGenreManager] UntaggedMedia error:', err);
+                    showStatus('statusUntagged', 'error', 'Scan failed. Check the server log.');
+                });
+            }
+
+            function renderUntaggedList(items) {
+                var html = items.map(function (item) {
+                    return '<div class="tgm-untagged-item" data-id="' + item.Id + '">' +
+                        '<span class="tgm-type-pill">' + escHtml(item.Type) + '</span>' +
+                        '<span style="flex:1">' + escHtml(item.Name) + ' (' + (item.ProductionYear || '?') + ')</span>' +
+                        '<i class="md-icon" style="opacity:.5; font-size:1rem;">edit</i>' +
+                    '</div>';
+                }).join('');
+                qs('#listUntagged').innerHTML = html;
+
+                qsa('.tgm-untagged-item').forEach(function (div) {
+                    div.addEventListener('click', function () {
+                        // Switch to Assignment tab and open editor
+                        activateTab('tabAssignment');
+                        qsa('.tgm-tab-btn').forEach(function (b) { b.classList.remove('active'); });
+                        qs('#btnTabAssign').classList.add('active');
+
+                        qsa('.tgm-untagged-item').forEach(function (d) { d.classList.remove('selected'); });
+                        this.classList.add('selected');
+                        loadItemForEdit(this.getAttribute('data-id'));
+                    });
+                });
+            }
+
+            // ── Tabs ──────────────────────────────────────────────────────────
+            var TABS = {
+                tabDefinitions: 'btnTabDef',
+                tabAssignment:  'btnTabAssign',
+                tabUntagged:    'btnTabUntagged'
+            };
+
+            function activateTab(tabId) {
+                Object.keys(TABS).forEach(function (id) {
+                    var tab = qs('#' + id);
+                    if (tab) tab.style.display = (id === tabId) ? 'block' : 'none';
+                });
+                Object.values(TABS).forEach(function (btnId) {
+                    var btn = qs('#' + btnId);
+                    if (btn) btn.classList.remove('active');
+                });
+                var activeBtn = qs('#' + TABS[tabId]);
+                if (activeBtn) activeBtn.classList.add('active');
+            }
+
+            function initTabs() {
+                qs('#btnTabDef').addEventListener('click',     function () { activateTab('tabDefinitions'); });
+                qs('#btnTabAssign').addEventListener('click',  function () { activateTab('tabAssignment'); });
+                qs('#btnTabUntagged').addEventListener('click', function () { activateTab('tabUntagged'); });
+            }
+
+            // ── Escape helpers ────────────────────────────────────────────────
+            function escHtml(str) {
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;');
+            }
+            function escAttr(str) { return escHtml(str); }
+
+            // ── Bootstrap ────────────────────────────────────────────────────
+            document.querySelector(pageId).addEventListener('pageshow', function () {
+                loadData();
+                loadLibraries();
+                initTabs();
+
+                // Definitions buttons
+                var btnAddTag = qs('#btnAddTag');
+                btnAddTag.removeEventListener('click', addTag);
+                btnAddTag.addEventListener('click', addTag);
+
+                var btnAddGenre = qs('#btnAddGenre');
+                btnAddGenre.removeEventListener('click', addGenre);
+                btnAddGenre.addEventListener('click', addGenre);
+
+                // Assignment buttons
+                var btnSearch = qs('#btnSearch');
+                btnSearch.removeEventListener('click', searchMedia);
+                btnSearch.addEventListener('click', searchMedia);
+
+                var txtSearch = qs('#txtSearch');
+                txtSearch.removeEventListener('keydown', onSearchKey);
+                txtSearch.addEventListener('keydown', onSearchKey);
+
+                var btnSave = qs('#btnSaveAssignment');
+                btnSave.removeEventListener('click', saveAssignment);
+                btnSave.addEventListener('click', saveAssignment);
+
+                // Untagged buttons
+                var btnScan = qs('#btnScanUntagged');
+                btnScan.removeEventListener('click', scanUntagged);
+                btnScan.addEventListener('click', scanUntagged);
+            });
+
+            function onSearchKey(e) {
+                if (e.key === 'Enter') { searchMedia(); }
+            }
+
+        })();
         </script>
     </div>
 </body>
-
 </html>
