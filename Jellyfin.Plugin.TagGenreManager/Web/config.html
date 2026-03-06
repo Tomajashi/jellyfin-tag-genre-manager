@@ -718,7 +718,6 @@
                 function renderUntaggedList(items) {
                     var html = items.map(function (item) {
                         return '<div class="tgm-untagged-item" data-id="' + item.Id + '">' +
-                            '<span class="tgm-type-pill">' + escHtml(item.Type) + '</span>' +
                             '<span class="tgm-result-name">' + escHtml(item.Name) +
                             '<span class="tgm-result-year">(' + (item.ProductionYear || '?') + ')</span>' +
                             '</span>' +
