@@ -13,9 +13,10 @@
         .tgm-tabs {
             display: flex;
             gap: 4px;
-            border-bottom: 1px solid rgba(255,255,255,0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
             margin-bottom: 24px;
         }
+
         .tgm-tab-btn {
             background: none;
             border: none;
@@ -27,7 +28,11 @@
             border-bottom: 3px solid transparent;
             transition: opacity 0.2s, border-color 0.2s;
         }
-        .tgm-tab-btn:hover { opacity: 0.85; }
+
+        .tgm-tab-btn:hover {
+            opacity: 0.85;
+        }
+
         .tgm-tab-btn.active {
             opacity: 1;
             font-weight: 600;
@@ -49,43 +54,68 @@
             align-items: flex-end;
             margin-bottom: 20px;
         }
-        .tgm-add-row > div { flex-grow: 1; }
+
+        .tgm-add-row>div {
+            flex-grow: 1;
+        }
 
         /* ── Definition list box ── */
         .tgm-list {
             max-height: 300px;
             overflow-y: auto;
             border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.12);
-            background: rgba(0,0,0,0.18);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.18);
             /* custom scrollbar */
             scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,0.2) transparent;
+            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
         }
-        .tgm-list::-webkit-scrollbar { width: 6px; }
-        .tgm-list::-webkit-scrollbar-track { background: transparent; }
-        .tgm-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+
+        .tgm-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .tgm-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .tgm-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
         .tgm-list-item {
             display: flex;
             align-items: center;
             padding: 9px 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             gap: 10px;
             width: 100%;
             box-sizing: border-box;
         }
-        .tgm-list-item:last-child { border-bottom: none; }
+
+        .tgm-list-item:last-child {
+            border-bottom: none;
+        }
+
         .tgm-item-name {
             font-size: 0.93rem;
-            flex: 1;          /* pushes delete button to the far right */
+            flex: 1;
+            /* pushes delete button to the far right */
         }
+
         .tgm-delete-btn {
             flex-shrink: 0;
             opacity: 0.45;
             transition: opacity 0.15s, color 0.15s;
             margin-left: auto;
         }
-        .tgm-delete-btn:hover { opacity: 1; color: #e57373; }
+
+        .tgm-delete-btn:hover {
+            opacity: 1;
+            color: #e57373;
+        }
+
         .tgm-badge {
             display: inline-block;
             padding: 2px 8px;
@@ -103,27 +133,36 @@
             align-items: center;
             gap: 10px;
             padding: 9px 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             cursor: pointer;
             transition: background 0.15s;
         }
-        .tgm-search-result:hover { background: rgba(255,255,255,0.06); }
-        .tgm-search-result.selected { background: rgba(0,164,220,0.15); }
+
+        .tgm-search-result:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .tgm-search-result.selected {
+            background: rgba(0, 164, 220, 0.15);
+        }
+
         .tgm-type-pill {
             font-size: 0.72rem;
             padding: 2px 10px;
             border-radius: 10px;
-            background: rgba(0,164,220,0.25);
+            background: rgba(0, 164, 220, 0.25);
             color: #4fc3f7;
             font-weight: 600;
             white-space: nowrap;
             flex-shrink: 0;
         }
+
         .tgm-result-name {
             font-weight: 600;
             color: #fff;
             flex: 1;
         }
+
         .tgm-result-year {
             font-size: 0.82rem;
             opacity: 0.5;
@@ -133,31 +172,38 @@
 
         /* ── Editor ── */
         .tgm-editor {
-            border-top: 1px solid rgba(255,255,255,0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
             padding-top: 20px;
             margin-top: 10px;
         }
+
         .tgm-editor-columns {
             display: flex;
             flex-wrap: wrap;
             gap: 40px;
         }
+
         .tgm-editor-col {
             flex: 1;
             min-width: 200px;
         }
+
         .tgm-checkbox-list {
             max-height: 320px;
             overflow-y: auto;
         }
+
         .tgm-checkbox-row {
             display: flex;
             align-items: center;
             gap: 8px;
             padding: 6px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .tgm-checkbox-row:last-child { border-bottom: none; }
+
+        .tgm-checkbox-row:last-child {
+            border-bottom: none;
+        }
 
         /* ── Untagged tab ── */
         .tgm-lib-select-row {
@@ -166,7 +212,10 @@
             align-items: flex-end;
             margin-bottom: 20px;
         }
-        .tgm-lib-select-row > div { flex-grow: 1; }
+
+        .tgm-lib-select-row>div {
+            flex-grow: 1;
+        }
 
         .tgm-untagged-item {
             display: flex;
@@ -174,16 +223,24 @@
             justify-content: space-between;
             gap: 10px;
             padding: 9px 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             cursor: pointer;
             transition: background 0.15s;
         }
-        .tgm-untagged-item:hover { background: rgba(255,255,255,0.05); }
-        .tgm-untagged-item.selected { background: rgba(0,164,220,0.15); }
+
+        .tgm-untagged-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tgm-untagged-item.selected {
+            background: rgba(0, 164, 220, 0.15);
+        }
+
         .tgm-untagged-list {
             max-height: 380px;
             overflow-y: auto;
         }
+
         .tgm-count-badge {
             display: inline-block;
             background: var(--theme-primary-color, #00a4dc);
@@ -211,20 +268,39 @@
             font-size: 0.88rem;
             display: none;
         }
-        .tgm-status.success { background: rgba(76,175,80,0.15); color: #81c784; display: block; }
-        .tgm-status.error   { background: rgba(244,67,54,0.15);  color: #e57373; display: block; }
-        .tgm-status.info    { background: rgba(0,164,220,0.12);  color: #4fc3f7; display: block; }
+
+        .tgm-status.success {
+            background: rgba(76, 175, 80, 0.15);
+            color: #81c784;
+            display: block;
+        }
+
+        .tgm-status.error {
+            background: rgba(244, 67, 54, 0.15);
+            color: #e57373;
+            display: block;
+        }
+
+        .tgm-status.info {
+            background: rgba(0, 164, 220, 0.12);
+            color: #4fc3f7;
+            display: block;
+        }
 
         /* utilities */
-        .tgm-mt { margin-top: 36px; }
-        .tgm-mb { margin-bottom: 14px; }
+        .tgm-mt {
+            margin-top: 36px;
+        }
+
+        .tgm-mb {
+            margin-bottom: 14px;
+        }
     </style>
 </head>
 
 <body>
-    <div id="TagGenreManagerConfigurationPage" data-role="page"
-         class="page type-interior pluginConfigurationPage"
-         data-require="emby-input,emby-button,emby-select,emby-checkbox">
+    <div id="TagGenreManagerConfigurationPage" data-role="page" class="page type-interior pluginConfigurationPage"
+        data-require="emby-input,emby-button,emby-select,emby-checkbox">
         <div data-role="content">
             <div class="content-primary">
                 <h1>Custom Tag &amp; Genre Manager</h1>
@@ -232,15 +308,16 @@
                 <!-- ── TAB BAR ── -->
                 <div class="tgm-tabs">
                     <button class="tgm-tab-btn active" id="btnTabDef">📋 Definitions</button>
-                    <button class="tgm-tab-btn"        id="btnTabAssign">🎬 Assignment</button>
-                    <button class="tgm-tab-btn"        id="btnTabUntagged">🔍 Untagged Media</button>
+                    <button class="tgm-tab-btn" id="btnTabAssign">🎬 Assignment</button>
+                    <button class="tgm-tab-btn" id="btnTabUntagged">🔍 Untagged Media</button>
                 </div>
 
                 <!-- ════════════════════════════════════
                      TAB 1 – DEFINITIONS
                      ════════════════════════════════════ -->
                 <div id="tabDefinitions">
-                    <p style="margin-bottom:20px;">Define the canonical tags and genres available for assignment. Items are sorted alphabetically.</p>
+                    <p style="margin-bottom:20px;">Define the canonical tags and genres available for assignment. Items
+                        are sorted alphabetically.</p>
 
                     <!-- Tags -->
                     <div class="section">
@@ -249,7 +326,8 @@
                             <div>
                                 <input type="text" id="txtNewTag" is="emby-input" label="New Tag Name" />
                             </div>
-                            <button is="emby-button" type="button" class="raised button-submit" id="btnAddTag">Add</button>
+                            <button is="emby-button" type="button" class="raised button-submit"
+                                id="btnAddTag">Add</button>
                         </div>
                         <div id="statusTag" class="tgm-status"></div>
                         <div class="paperList tgm-list" id="listTags"></div>
@@ -262,7 +340,8 @@
                             <div>
                                 <input type="text" id="txtNewGenre" is="emby-input" label="New Genre Name" />
                             </div>
-                            <button is="emby-button" type="button" class="raised button-submit" id="btnAddGenre">Add</button>
+                            <button is="emby-button" type="button" class="raised button-submit"
+                                id="btnAddGenre">Add</button>
                         </div>
                         <div id="statusGenre" class="tgm-status"></div>
                         <div class="paperList tgm-list" id="listGenres"></div>
@@ -282,7 +361,7 @@
                     </div>
 
                     <div id="listSearchResults" class="paperList"
-                         style="max-height:220px; overflow-y:auto; margin-bottom:20px;"></div>
+                        style="max-height:220px; overflow-y:auto; margin-bottom:20px;"></div>
 
                     <!-- Editor – shown after selecting a media item -->
                     <div id="editorArea" class="tgm-editor" style="display:none;">
@@ -302,7 +381,8 @@
                             </div>
                         </div>
                         <br />
-                        <button is="emby-button" class="raised button-submit" id="btnSaveAssignment">Save Changes</button>
+                        <button is="emby-button" class="raised button-submit" id="btnSaveAssignment">Save
+                            Changes</button>
                     </div>
                 </div>
 
@@ -341,403 +421,403 @@
 
         <!-- ══════════ JAVASCRIPT ══════════ -->
         <script type="text/javascript">
-        (function () {
-            'use strict';
+            (function () {
+                'use strict';
 
-            console.log('[TagGenreManager] v3.0.0 loaded');
+                console.log('[TagGenreManager] v3.0.0 loaded');
 
-            var pageId      = '#TagGenreManagerConfigurationPage';
-            var cachedTags  = [];   // sorted list of defined tags
-            var cachedGenres = [];  // sorted list of defined genres
-            var currentItem = null; // item currently loaded in the editor
+                var pageId = '#TagGenreManagerConfigurationPage';
+                var cachedTags = [];   // sorted list of defined tags
+                var cachedGenres = [];  // sorted list of defined genres
+                var currentItem = null; // item currently loaded in the editor
 
-            // ── Helpers ──────────────────────────────────────────────────────
-            function qs(sel)  { return document.querySelector(pageId + ' ' + sel); }
-            function qsa(sel) { return document.querySelectorAll(pageId + ' ' + sel); }
+                // ── Helpers ──────────────────────────────────────────────────────
+                function qs(sel) { return document.querySelector(pageId + ' ' + sel); }
+                function qsa(sel) { return document.querySelectorAll(pageId + ' ' + sel); }
 
-            function getUrl(path) {
-                return ApiClient.getUrl('TagGenreManager/' + path);
-            }
-
-            function showStatus(id, type, msg) {
-                var el = qs('#' + id);
-                el.className = 'tgm-status ' + type;
-                el.textContent = msg;
-                if (type === 'success') {
-                    setTimeout(function () { el.className = 'tgm-status'; }, 3500);
+                function getUrl(path) {
+                    return ApiClient.getUrl('TagGenreManager/' + path);
                 }
-            }
 
-            // ── Load definitions (tags + genres) ─────────────────────────────
-            function loadData() {
-                return Promise.all([
-                    ApiClient.getJSON(getUrl('Tags')),
-                    ApiClient.getJSON(getUrl('Genres'))
-                ]).then(function (results) {
-                    // API already returns them sorted; store & render
-                    cachedTags   = results[0];
-                    cachedGenres = results[1];
-                    renderDefinedTags(cachedTags);
-                    renderDefinedGenres(cachedGenres);
-                });
-            }
-
-            // ── Definitions – Tags ────────────────────────────────────────────
-            function renderDefinedTags(tags) {
-                if (!tags.length) {
-                    qs('#listTags').innerHTML = '<div class="tgm-empty">No tags defined yet.</div>';
-                    return;
+                function showStatus(id, type, msg) {
+                    var el = qs('#' + id);
+                    el.className = 'tgm-status ' + type;
+                    el.textContent = msg;
+                    if (type === 'success') {
+                        setTimeout(function () { el.className = 'tgm-status'; }, 3500);
+                    }
                 }
-                var html = tags.map(function (t) {
-                    return '<div class="tgm-list-item">' +
-                        '<span class="tgm-item-name">' + escHtml(t.Name) + '</span>' +
-                        '<button type="button" class="fab mini btnDeleteTag tgm-delete-btn" data-id="' + t.Id + '" title="Delete tag">' +
-                            '<i class="md-icon">delete</i>' +
-                        '</button>' +
-                    '</div>';
-                }).join('');
-                qs('#listTags').innerHTML = html;
-                qsa('.btnDeleteTag').forEach(function (btn) {
-                    btn.addEventListener('click', function () { deleteTag(this.getAttribute('data-id')); });
-                });
-            }
 
-            function addTag() {
-                var txt = qs('#txtNewTag');
-                var name = txt.value.trim();
-                if (!name) return;
-                ApiClient.ajax({
-                    type: 'POST', url: getUrl('Tags'),
-                    data: JSON.stringify({ Name: name }),
-                    contentType: 'application/json'
-                }).then(function () {
-                    txt.value = '';
-                    showStatus('statusTag', 'success', '✔ Tag "' + name + '" added.');
-                    loadData();
-                }).catch(function (err) {
-                    var msg = (err && err.status === 409) ? 'Tag already exists.' : 'Error adding tag.';
-                    showStatus('statusTag', 'error', msg);
-                });
-            }
-
-            function deleteTag(id) {
-                ApiClient.ajax({ type: 'DELETE', url: getUrl('Tags/' + id) })
-                    .then(loadData)
-                    .catch(function () { showStatus('statusTag', 'error', 'Error deleting tag.'); });
-            }
-
-            // ── Definitions – Genres ──────────────────────────────────────────
-            function renderDefinedGenres(genres) {
-                if (!genres.length) {
-                    qs('#listGenres').innerHTML = '<div class="tgm-empty">No genres defined yet.</div>';
-                    return;
-                }
-                var html = genres.map(function (g) {
-                    return '<div class="tgm-list-item">' +
-                        '<span class="tgm-item-name">' + escHtml(g.Name) + '</span>' +
-                        '<button type="button" class="fab mini btnDeleteGenre tgm-delete-btn" data-id="' + g.Id + '" title="Delete genre">' +
-                            '<i class="md-icon">delete</i>' +
-                        '</button>' +
-                    '</div>';
-                }).join('');
-                qs('#listGenres').innerHTML = html;
-                qsa('.btnDeleteGenre').forEach(function (btn) {
-                    btn.addEventListener('click', function () { deleteGenre(this.getAttribute('data-id')); });
-                });
-            }
-
-            function addGenre() {
-                var txt = qs('#txtNewGenre');
-                var name = txt.value.trim();
-                if (!name) return;
-                ApiClient.ajax({
-                    type: 'POST', url: getUrl('Genres'),
-                    data: JSON.stringify({ Name: name }),
-                    contentType: 'application/json'
-                }).then(function () {
-                    txt.value = '';
-                    showStatus('statusGenre', 'success', '✔ Genre "' + name + '" added.');
-                    loadData();
-                }).catch(function (err) {
-                    var msg = (err && err.status === 409) ? 'Genre already exists.' : 'Error adding genre.';
-                    showStatus('statusGenre', 'error', msg);
-                });
-            }
-
-            function deleteGenre(id) {
-                ApiClient.ajax({ type: 'DELETE', url: getUrl('Genres/' + id) })
-                    .then(loadData)
-                    .catch(function () { showStatus('statusGenre', 'error', 'Error deleting genre.'); });
-            }
-
-            // ── Assignment – Search ───────────────────────────────────────────
-            function searchMedia() {
-                var term = qs('#txtSearch').value.trim();
-                if (!term) return;
-                Dashboard.showLoadingMsg();
-                var userId = ApiClient.getCurrentUserId();
-                ApiClient.getItems(userId, {
-                    SearchTerm: term,
-                    Recursive: true,
-                    IncludeItemTypes: 'Movie,Series,BoxSet',
-                    Fields: 'ProductionYear,Type',
-                    Limit: 50
-                }).then(function (result) {
-                    Dashboard.hideLoadingMsg();
-                    var valid = (result.Items || []).filter(function (i) {
-                        return i.Type === 'Movie' || i.Type === 'Series' || i.Type === 'BoxSet';
+                // ── Load definitions (tags + genres) ─────────────────────────────
+                function loadData() {
+                    return Promise.all([
+                        ApiClient.getJSON(getUrl('Tags')),
+                        ApiClient.getJSON(getUrl('Genres'))
+                    ]).then(function (results) {
+                        // API already returns them sorted; store & render
+                        cachedTags = results[0];
+                        cachedGenres = results[1];
+                        renderDefinedTags(cachedTags);
+                        renderDefinedGenres(cachedGenres);
                     });
-                    renderSearchResults(valid.slice(0, 25));
-                }).catch(function (err) {
-                    Dashboard.hideLoadingMsg();
-                    console.error('[TagGenreManager] Search error:', err);
-                    renderSearchResults([]);
-                });
-            }
-
-            function renderSearchResults(items) {
-                if (!items.length) {
-                    qs('#listSearchResults').innerHTML = '<div class="tgm-empty">No results found.</div>';
-                    return;
-                }
-                var html = items.map(function (item) {
-                    return '<div class="tgm-search-result" data-id="' + item.Id + '">' +
-                        '<span class="tgm-type-pill">' + escHtml(item.Type) + '</span>' +
-                        '<span class="tgm-result-name">' + escHtml(item.Name) +
-                            '<span class="tgm-result-year">(' + (item.ProductionYear || '?') + ')</span>' +
-                        '</span>' +
-                    '</div>';
-                }).join('');
-                qs('#listSearchResults').innerHTML = html;
-                qsa('.tgm-search-result').forEach(function (div) {
-                    div.addEventListener('click', function () {
-                        qsa('.tgm-search-result').forEach(function (d) { d.classList.remove('selected'); });
-                        this.classList.add('selected');
-                        loadItemForEdit(this.getAttribute('data-id'));
-                    });
-                });
-            }
-
-            // ── Assignment – Editor ───────────────────────────────────────────
-            function loadItemForEdit(itemId) {
-                Dashboard.showLoadingMsg();
-                ApiClient.getItem(ApiClient.getCurrentUserId(), itemId).then(function (item) {
-                    currentItem = item;
-                    qs('#selectedItemName').textContent = 'Editing: ' + item.Name;
-                    qs('#editorArea').style.display = 'block';
-
-                    // cachedTags/Genres are already sorted alphabetically from the API.
-                    // item.Tags and item.Genres are the raw arrays on the Jellyfin item.
-                    // renderCheckboxes will pre-tick any name that appears in both sets.
-                    renderCheckboxes('editorTags',   cachedTags,   item.Tags   || []);
-                    renderCheckboxes('editorGenres', cachedGenres, item.Genres || []);
-
-                    Dashboard.hideLoadingMsg();
-                });
-            }
-
-            /**
-             * Renders a list of checkboxes for the editor.
-             * @param {string}   containerId   - DOM element id (without #)
-             * @param {Array}    definedItems  - [{Name, Id, …}] sorted list from plugin config
-             * @param {string[]} itemValues    - values already saved on the Jellyfin item
-             */
-            function renderCheckboxes(containerId, definedItems, itemValues) {
-                if (!definedItems.length) {
-                    qs('#' + containerId).innerHTML =
-                        '<div class="tgm-empty">No ' + containerId.replace('editor','').toLowerCase() + ' defined.</div>';
-                    return;
                 }
 
-                // Build a case-insensitive set of what the item already has
-                var currentSet = {};
-                (itemValues || []).forEach(function (v) {
-                    currentSet[v.toLowerCase()] = true;
-                });
-
-                var html = definedItems.map(function (def) {
-                    var isChecked = currentSet[def.Name.toLowerCase()] ? 'checked' : '';
-                    var checkedClass = isChecked ? ' style="font-weight:600;"' : '';
-                    return '<div class="tgm-checkbox-row">' +
-                        '<input type="checkbox" is="emby-checkbox"' +
-                            ' class="chk-' + containerId + '"' +
-                            ' value="' + escAttr(def.Name) + '" ' + isChecked + ' />' +
-                        '<label' + checkedClass + '>' + escHtml(def.Name) + '</label>' +
-                    '</div>';
-                }).join('');
-                qs('#' + containerId).innerHTML = html;
-            }
-
-            function saveAssignment() {
-                if (!currentItem) return;
-
-                var newTags = [];
-                qsa('.chk-editorTags:checked').forEach(function (c) { newTags.push(c.value); });
-
-                var newGenres = [];
-                qsa('.chk-editorGenres:checked').forEach(function (c) { newGenres.push(c.value); });
-
-                currentItem.Tags   = newTags;
-                currentItem.Genres = newGenres;
-
-                Dashboard.showLoadingMsg();
-                ApiClient.updateItem(currentItem).then(function () {
-                    Dashboard.hideLoadingMsg();
-                    showStatus('statusSave', 'success', '✔ Changes saved successfully!');
-                }, function (err) {
-                    Dashboard.hideLoadingMsg();
-                    showStatus('statusSave', 'error', 'Error saving: ' + (err || ''));
-                });
-            }
-
-            // ── Untagged Media ────────────────────────────────────────────────
-            function loadLibraries() {
-                ApiClient.getJSON(getUrl('Libraries')).then(function (libs) {
-                    var sel = qs('#selLibrary');
-                    sel.innerHTML = '<option value="">-- Choose a library --</option>';
-                    libs.forEach(function (lib) {
-                        var opt = document.createElement('option');
-                        opt.value = lib.Id;
-                        opt.textContent = lib.Name;
-                        sel.appendChild(opt);
-                    });
-                }).catch(function () {
-                    showStatus('statusUntagged', 'error', 'Could not load libraries.');
-                });
-            }
-
-            function scanUntagged() {
-                var libId = qs('#selLibrary').value;
-                if (!libId) {
-                    showStatus('statusUntagged', 'info', 'Please select a library first.');
-                    return;
-                }
-                Dashboard.showLoadingMsg();
-                qs('#listUntagged').innerHTML = '';
-                qs('#untaggedResultsHeader').style.display = 'none';
-
-                ApiClient.getJSON(getUrl('UntaggedMedia?libraryId=' + libId)).then(function (items) {
-                    Dashboard.hideLoadingMsg();
-                    qs('#statusUntagged').className = 'tgm-status';
-
-                    qs('#untaggedCount').textContent = items.length;
-                    qs('#untaggedResultsHeader').style.display = 'block';
-
-                    if (!items.length) {
-                        qs('#listUntagged').innerHTML =
-                            '<div class="tgm-empty">🎉 All items in this library have tags or genres assigned!</div>';
+                // ── Definitions – Tags ────────────────────────────────────────────
+                function renderDefinedTags(tags) {
+                    if (!tags.length) {
+                        qs('#listTags').innerHTML = '<div class="tgm-empty">No tags defined yet.</div>';
                         return;
                     }
-                    renderUntaggedList(items);
-                }).catch(function (err) {
-                    Dashboard.hideLoadingMsg();
-                    console.error('[TagGenreManager] UntaggedMedia error:', err);
-                    showStatus('statusUntagged', 'error', 'Scan failed. Check the server log.');
-                });
-            }
-
-            function renderUntaggedList(items) {
-                var html = items.map(function (item) {
-                    return '<div class="tgm-untagged-item" data-id="' + item.Id + '">' +
-                        '<span class="tgm-type-pill">' + escHtml(item.Type) + '</span>' +
-                        '<span class="tgm-result-name">' + escHtml(item.Name) +
-                            '<span class="tgm-result-year">(' + (item.ProductionYear || '?') + ')</span>' +
-                        '</span>' +
-                        '<i class="md-icon" style="opacity:.5; font-size:1rem; margin-left:auto;">edit</i>' +
-                    '</div>';
-                }).join('');
-                qs('#listUntagged').innerHTML = html;
-
-                qsa('.tgm-untagged-item').forEach(function (div) {
-                    div.addEventListener('click', function () {
-                        // Switch to Assignment tab and open editor
-                        activateTab('tabAssignment');
-                        qsa('.tgm-tab-btn').forEach(function (b) { b.classList.remove('active'); });
-                        qs('#btnTabAssign').classList.add('active');
-
-                        qsa('.tgm-untagged-item').forEach(function (d) { d.classList.remove('selected'); });
-                        this.classList.add('selected');
-                        loadItemForEdit(this.getAttribute('data-id'));
+                    var html = tags.map(function (t) {
+                        return '<div class="tgm-list-item">' +
+                            '<span class="tgm-item-name">' + escHtml(t.Name) + '</span>' +
+                            '<button type="button" class="fab mini btnDeleteTag tgm-delete-btn" data-id="' + t.Id + '" title="Delete tag">' +
+                            '<i class="md-icon">delete</i>' +
+                            '</button>' +
+                            '</div>';
+                    }).join('');
+                    qs('#listTags').innerHTML = html;
+                    qsa('.btnDeleteTag').forEach(function (btn) {
+                        btn.addEventListener('click', function () { deleteTag(this.getAttribute('data-id')); });
                     });
+                }
+
+                function addTag() {
+                    var txt = qs('#txtNewTag');
+                    var name = txt.value.trim();
+                    if (!name) return;
+                    ApiClient.ajax({
+                        type: 'POST', url: getUrl('Tags'),
+                        data: JSON.stringify({ Name: name }),
+                        contentType: 'application/json'
+                    }).then(function () {
+                        txt.value = '';
+                        showStatus('statusTag', 'success', '✔ Tag "' + name + '" added.');
+                        loadData();
+                    }).catch(function (err) {
+                        var msg = (err && err.status === 409) ? 'Tag already exists.' : 'Error adding tag.';
+                        showStatus('statusTag', 'error', msg);
+                    });
+                }
+
+                function deleteTag(id) {
+                    ApiClient.ajax({ type: 'DELETE', url: getUrl('Tags/' + id) })
+                        .then(loadData)
+                        .catch(function () { showStatus('statusTag', 'error', 'Error deleting tag.'); });
+                }
+
+                // ── Definitions – Genres ──────────────────────────────────────────
+                function renderDefinedGenres(genres) {
+                    if (!genres.length) {
+                        qs('#listGenres').innerHTML = '<div class="tgm-empty">No genres defined yet.</div>';
+                        return;
+                    }
+                    var html = genres.map(function (g) {
+                        return '<div class="tgm-list-item">' +
+                            '<span class="tgm-item-name">' + escHtml(g.Name) + '</span>' +
+                            '<button type="button" class="fab mini btnDeleteGenre tgm-delete-btn" data-id="' + g.Id + '" title="Delete genre">' +
+                            '<i class="md-icon">delete</i>' +
+                            '</button>' +
+                            '</div>';
+                    }).join('');
+                    qs('#listGenres').innerHTML = html;
+                    qsa('.btnDeleteGenre').forEach(function (btn) {
+                        btn.addEventListener('click', function () { deleteGenre(this.getAttribute('data-id')); });
+                    });
+                }
+
+                function addGenre() {
+                    var txt = qs('#txtNewGenre');
+                    var name = txt.value.trim();
+                    if (!name) return;
+                    ApiClient.ajax({
+                        type: 'POST', url: getUrl('Genres'),
+                        data: JSON.stringify({ Name: name }),
+                        contentType: 'application/json'
+                    }).then(function () {
+                        txt.value = '';
+                        showStatus('statusGenre', 'success', '✔ Genre "' + name + '" added.');
+                        loadData();
+                    }).catch(function (err) {
+                        var msg = (err && err.status === 409) ? 'Genre already exists.' : 'Error adding genre.';
+                        showStatus('statusGenre', 'error', msg);
+                    });
+                }
+
+                function deleteGenre(id) {
+                    ApiClient.ajax({ type: 'DELETE', url: getUrl('Genres/' + id) })
+                        .then(loadData)
+                        .catch(function () { showStatus('statusGenre', 'error', 'Error deleting genre.'); });
+                }
+
+                // ── Assignment – Search ───────────────────────────────────────────
+                function searchMedia() {
+                    var term = qs('#txtSearch').value.trim();
+                    if (!term) return;
+                    Dashboard.showLoadingMsg();
+                    var userId = ApiClient.getCurrentUserId();
+                    ApiClient.getItems(userId, {
+                        SearchTerm: term,
+                        Recursive: true,
+                        IncludeItemTypes: 'Movie,Series,BoxSet',
+                        Fields: 'ProductionYear,Type',
+                        Limit: 50
+                    }).then(function (result) {
+                        Dashboard.hideLoadingMsg();
+                        var valid = (result.Items || []).filter(function (i) {
+                            return i.Type === 'Movie' || i.Type === 'Series' || i.Type === 'BoxSet';
+                        });
+                        renderSearchResults(valid.slice(0, 25));
+                    }).catch(function (err) {
+                        Dashboard.hideLoadingMsg();
+                        console.error('[TagGenreManager] Search error:', err);
+                        renderSearchResults([]);
+                    });
+                }
+
+                function renderSearchResults(items) {
+                    if (!items.length) {
+                        qs('#listSearchResults').innerHTML = '<div class="tgm-empty">No results found.</div>';
+                        return;
+                    }
+                    var html = items.map(function (item) {
+                        return '<div class="tgm-search-result" data-id="' + item.Id + '">' +
+                            '<span class="tgm-result-name">' + escHtml(item.Name) +
+                            '<span class="tgm-result-year">(' + (item.ProductionYear || '?') + ')</span>' +
+                            '</span>' +
+                            '</div>';
+                    }).join('');
+                    qs('#listSearchResults').innerHTML = html;
+                    qsa('.tgm-search-result').forEach(function (div) {
+                        div.addEventListener('click', function () {
+                            qsa('.tgm-search-result').forEach(function (d) { d.classList.remove('selected'); });
+                            this.classList.add('selected');
+                            loadItemForEdit(this.getAttribute('data-id'));
+                        });
+                    });
+                }
+
+                // ── Assignment – Editor ───────────────────────────────────────────
+                function loadItemForEdit(itemId) {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getItem(ApiClient.getCurrentUserId(), itemId).then(function (item) {
+                        currentItem = item;
+                        qs('#selectedItemName').textContent = 'Editing: ' + item.Name;
+                        qs('#editorArea').style.display = 'block';
+
+                        // cachedTags/Genres are already sorted alphabetically from the API.
+                        // item.Tags and item.Genres are the raw arrays on the Jellyfin item.
+                        // renderCheckboxes will pre-tick any name that appears in both sets.
+                        renderCheckboxes('editorTags', cachedTags, item.Tags || []);
+                        renderCheckboxes('editorGenres', cachedGenres, item.Genres || []);
+
+                        Dashboard.hideLoadingMsg();
+                    });
+                }
+
+                /**
+                 * Renders a list of checkboxes for the editor.
+                 * @param {string}   containerId   - DOM element id (without #)
+                 * @param {Array}    definedItems  - [{Name, Id, …}] sorted list from plugin config
+                 * @param {string[]} itemValues    - values already saved on the Jellyfin item
+                 */
+                function renderCheckboxes(containerId, definedItems, itemValues) {
+                    if (!definedItems.length) {
+                        qs('#' + containerId).innerHTML =
+                            '<div class="tgm-empty">No ' + containerId.replace('editor', '').toLowerCase() + ' defined.</div>';
+                        return;
+                    }
+
+                    // Build a case-insensitive set of what the item already has
+                    var currentSet = {};
+                    (itemValues || []).forEach(function (v) {
+                        currentSet[v.toLowerCase()] = true;
+                    });
+
+                    var html = definedItems.map(function (def) {
+                        var isChecked = currentSet[def.Name.toLowerCase()] ? 'checked' : '';
+                        var checkedClass = isChecked ? ' style="font-weight:600;"' : '';
+                        return '<div class="tgm-checkbox-row">' +
+                            '<input type="checkbox" is="emby-checkbox"' +
+                            ' class="chk-' + containerId + '"' +
+                            ' value="' + escAttr(def.Name) + '" ' + isChecked + ' />' +
+                            '<label' + checkedClass + '>' + escHtml(def.Name) + '</label>' +
+                            '</div>';
+                    }).join('');
+                    qs('#' + containerId).innerHTML = html;
+                }
+
+                function saveAssignment() {
+                    if (!currentItem) return;
+
+                    var newTags = [];
+                    qsa('.chk-editorTags:checked').forEach(function (c) { newTags.push(c.value); });
+
+                    var newGenres = [];
+                    qsa('.chk-editorGenres:checked').forEach(function (c) { newGenres.push(c.value); });
+
+                    currentItem.Tags = newTags;
+                    currentItem.Genres = newGenres;
+
+                    Dashboard.showLoadingMsg();
+                    ApiClient.updateItem(currentItem).then(function () {
+                        Dashboard.hideLoadingMsg();
+                        showStatus('statusSave', 'success', '✔ Changes saved successfully!');
+                    }, function (err) {
+                        Dashboard.hideLoadingMsg();
+                        showStatus('statusSave', 'error', 'Error saving: ' + (err || ''));
+                    });
+                }
+
+                // ── Untagged Media ────────────────────────────────────────────────
+                function loadLibraries() {
+                    ApiClient.getJSON(getUrl('Libraries')).then(function (libs) {
+                        var sel = qs('#selLibrary');
+                        sel.innerHTML = '<option value="">-- Choose a library --</option>';
+                        libs.forEach(function (lib) {
+                            var opt = document.createElement('option');
+                            opt.value = lib.Id;
+                            opt.textContent = lib.Name;
+                            sel.appendChild(opt);
+                        });
+                    }).catch(function () {
+                        showStatus('statusUntagged', 'error', 'Could not load libraries.');
+                    });
+                }
+
+                function scanUntagged() {
+                    var libId = qs('#selLibrary').value;
+                    if (!libId) {
+                        showStatus('statusUntagged', 'info', 'Please select a library first.');
+                        return;
+                    }
+                    Dashboard.showLoadingMsg();
+                    qs('#listUntagged').innerHTML = '';
+                    qs('#untaggedResultsHeader').style.display = 'none';
+
+                    ApiClient.getJSON(getUrl('UntaggedMedia?libraryId=' + libId)).then(function (items) {
+                        Dashboard.hideLoadingMsg();
+                        qs('#statusUntagged').className = 'tgm-status';
+
+                        qs('#untaggedCount').textContent = items.length;
+                        qs('#untaggedResultsHeader').style.display = 'block';
+
+                        if (!items.length) {
+                            qs('#listUntagged').innerHTML =
+                                '<div class="tgm-empty">🎉 All items in this library have tags or genres assigned!</div>';
+                            return;
+                        }
+                        renderUntaggedList(items);
+                    }).catch(function (err) {
+                        Dashboard.hideLoadingMsg();
+                        console.error('[TagGenreManager] UntaggedMedia error:', err);
+                        showStatus('statusUntagged', 'error', 'Scan failed. Check the server log.');
+                    });
+                }
+
+                function renderUntaggedList(items) {
+                    var html = items.map(function (item) {
+                        return '<div class="tgm-untagged-item" data-id="' + item.Id + '">' +
+                            '<span class="tgm-type-pill">' + escHtml(item.Type) + '</span>' +
+                            '<span class="tgm-result-name">' + escHtml(item.Name) +
+                            '<span class="tgm-result-year">(' + (item.ProductionYear || '?') + ')</span>' +
+                            '</span>' +
+                            '<i class="md-icon" style="opacity:.5; font-size:1rem; margin-left:auto;">edit</i>' +
+                            '</div>';
+                    }).join('');
+                    qs('#listUntagged').innerHTML = html;
+
+                    qsa('.tgm-untagged-item').forEach(function (div) {
+                        div.addEventListener('click', function () {
+                            // Switch to Assignment tab and open editor
+                            activateTab('tabAssignment');
+                            qsa('.tgm-tab-btn').forEach(function (b) { b.classList.remove('active'); });
+                            qs('#btnTabAssign').classList.add('active');
+
+                            qsa('.tgm-untagged-item').forEach(function (d) { d.classList.remove('selected'); });
+                            this.classList.add('selected');
+                            loadItemForEdit(this.getAttribute('data-id'));
+                        });
+                    });
+                }
+
+                // ── Tabs ──────────────────────────────────────────────────────────
+                var TABS = {
+                    tabDefinitions: 'btnTabDef',
+                    tabAssignment: 'btnTabAssign',
+                    tabUntagged: 'btnTabUntagged'
+                };
+
+                function activateTab(tabId) {
+                    Object.keys(TABS).forEach(function (id) {
+                        var tab = qs('#' + id);
+                        if (tab) tab.style.display = (id === tabId) ? 'block' : 'none';
+                    });
+                    Object.values(TABS).forEach(function (btnId) {
+                        var btn = qs('#' + btnId);
+                        if (btn) btn.classList.remove('active');
+                    });
+                    var activeBtn = qs('#' + TABS[tabId]);
+                    if (activeBtn) activeBtn.classList.add('active');
+                }
+
+                function initTabs() {
+                    qs('#btnTabDef').addEventListener('click', function () { activateTab('tabDefinitions'); });
+                    qs('#btnTabAssign').addEventListener('click', function () { activateTab('tabAssignment'); });
+                    qs('#btnTabUntagged').addEventListener('click', function () { activateTab('tabUntagged'); });
+                }
+
+                // ── Escape helpers ────────────────────────────────────────────────
+                function escHtml(str) {
+                    return String(str)
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/"/g, '&quot;');
+                }
+                function escAttr(str) { return escHtml(str); }
+
+                // ── Bootstrap ────────────────────────────────────────────────────
+                document.querySelector(pageId).addEventListener('pageshow', function () {
+                    loadData();
+                    loadLibraries();
+                    initTabs();
+
+                    // Definitions buttons
+                    var btnAddTag = qs('#btnAddTag');
+                    btnAddTag.removeEventListener('click', addTag);
+                    btnAddTag.addEventListener('click', addTag);
+
+                    var btnAddGenre = qs('#btnAddGenre');
+                    btnAddGenre.removeEventListener('click', addGenre);
+                    btnAddGenre.addEventListener('click', addGenre);
+
+                    // Assignment buttons
+                    var btnSearch = qs('#btnSearch');
+                    btnSearch.removeEventListener('click', searchMedia);
+                    btnSearch.addEventListener('click', searchMedia);
+
+                    var txtSearch = qs('#txtSearch');
+                    txtSearch.removeEventListener('keydown', onSearchKey);
+                    txtSearch.addEventListener('keydown', onSearchKey);
+
+                    var btnSave = qs('#btnSaveAssignment');
+                    btnSave.removeEventListener('click', saveAssignment);
+                    btnSave.addEventListener('click', saveAssignment);
+
+                    // Untagged buttons
+                    var btnScan = qs('#btnScanUntagged');
+                    btnScan.removeEventListener('click', scanUntagged);
+                    btnScan.addEventListener('click', scanUntagged);
                 });
-            }
 
-            // ── Tabs ──────────────────────────────────────────────────────────
-            var TABS = {
-                tabDefinitions: 'btnTabDef',
-                tabAssignment:  'btnTabAssign',
-                tabUntagged:    'btnTabUntagged'
-            };
+                function onSearchKey(e) {
+                    if (e.key === 'Enter') { searchMedia(); }
+                }
 
-            function activateTab(tabId) {
-                Object.keys(TABS).forEach(function (id) {
-                    var tab = qs('#' + id);
-                    if (tab) tab.style.display = (id === tabId) ? 'block' : 'none';
-                });
-                Object.values(TABS).forEach(function (btnId) {
-                    var btn = qs('#' + btnId);
-                    if (btn) btn.classList.remove('active');
-                });
-                var activeBtn = qs('#' + TABS[tabId]);
-                if (activeBtn) activeBtn.classList.add('active');
-            }
-
-            function initTabs() {
-                qs('#btnTabDef').addEventListener('click',     function () { activateTab('tabDefinitions'); });
-                qs('#btnTabAssign').addEventListener('click',  function () { activateTab('tabAssignment'); });
-                qs('#btnTabUntagged').addEventListener('click', function () { activateTab('tabUntagged'); });
-            }
-
-            // ── Escape helpers ────────────────────────────────────────────────
-            function escHtml(str) {
-                return String(str)
-                    .replace(/&/g, '&amp;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;')
-                    .replace(/"/g, '&quot;');
-            }
-            function escAttr(str) { return escHtml(str); }
-
-            // ── Bootstrap ────────────────────────────────────────────────────
-            document.querySelector(pageId).addEventListener('pageshow', function () {
-                loadData();
-                loadLibraries();
-                initTabs();
-
-                // Definitions buttons
-                var btnAddTag = qs('#btnAddTag');
-                btnAddTag.removeEventListener('click', addTag);
-                btnAddTag.addEventListener('click', addTag);
-
-                var btnAddGenre = qs('#btnAddGenre');
-                btnAddGenre.removeEventListener('click', addGenre);
-                btnAddGenre.addEventListener('click', addGenre);
-
-                // Assignment buttons
-                var btnSearch = qs('#btnSearch');
-                btnSearch.removeEventListener('click', searchMedia);
-                btnSearch.addEventListener('click', searchMedia);
-
-                var txtSearch = qs('#txtSearch');
-                txtSearch.removeEventListener('keydown', onSearchKey);
-                txtSearch.addEventListener('keydown', onSearchKey);
-
-                var btnSave = qs('#btnSaveAssignment');
-                btnSave.removeEventListener('click', saveAssignment);
-                btnSave.addEventListener('click', saveAssignment);
-
-                // Untagged buttons
-                var btnScan = qs('#btnScanUntagged');
-                btnScan.removeEventListener('click', scanUntagged);
-                btnScan.addEventListener('click', scanUntagged);
-            });
-
-            function onSearchKey(e) {
-                if (e.key === 'Enter') { searchMedia(); }
-            }
-
-        })();
+            })();
         </script>
     </div>
 </body>
+
 </html>
