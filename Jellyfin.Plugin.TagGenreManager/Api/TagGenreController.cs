@@ -32,9 +32,7 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
             _libraryManager = libraryManager;
         }
 
-        // ──────────────────────────────────────────────
-        //  TAGS
-        // ──────────────────────────────────────────────
+        // ---- TAGS ----
 
         /// <summary>Gets all defined tags, sorted alphabetically.</summary>
         /// <returns>Sorted list of defined tags.</returns>
@@ -48,7 +46,7 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
 
         /// <summary>Adds a new tag.</summary>
         /// <param name="tag">The tag to add.</param>
-        /// <returns>The added tag, or a conflict if it already exists.</returns>
+        /// <returns>The added tag, or conflict if it already exists.</returns>
         [HttpPost("Tags")]
         public ActionResult AddTag([FromBody] ManagedItem tag)
         {
@@ -86,9 +84,7 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
             return Ok();
         }
 
-        // ──────────────────────────────────────────────
-        //  GENRES
-        // ──────────────────────────────────────────────
+        // ---- GENRES ----
 
         /// <summary>Gets all defined genres, sorted alphabetically.</summary>
         /// <returns>Sorted list of defined genres.</returns>
@@ -102,7 +98,7 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
 
         /// <summary>Adds a new genre.</summary>
         /// <param name="genre">The genre to add.</param>
-        /// <returns>The added genre, or a conflict if it already exists.</returns>
+        /// <returns>The added genre, or conflict if it already exists.</returns>
         [HttpPost("Genres")]
         public ActionResult AddGenre([FromBody] ManagedItem genre)
         {
@@ -140,9 +136,7 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
             return Ok();
         }
 
-        // ──────────────────────────────────────────────
-        //  LIBRARIES
-        // ──────────────────────────────────────────────
+        // ---- LIBRARIES ----
 
         /// <summary>Returns all top-level media libraries (virtual folders).</summary>
         /// <returns>A list of libraries with Id and Name.</returns>
@@ -158,16 +152,14 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
             return Ok(folders);
         }
 
-        // ──────────────────────────────────────────────
-        //  UNTAGGED MEDIA
-        // ──────────────────────────────────────────────
+        // ---- UNTAGGED MEDIA ----
 
         /// <summary>
-        /// Returns all movies/series in the given library that have no tags and no genres
-        /// matching the plugin-defined lists.
+        /// Returns all movies/series in the given library that are missing at least one
+        /// plugin-defined tag or plugin-defined genre assignment.
         /// </summary>
-        /// <param name="libraryId">The Guid of the library to scan.</param>
-        /// <returns>A list of untagged media items.</returns>
+        /// <param name="libraryId">The Guid of the library folder to scan.</param>
+        /// <returns>List of media items that need tagging/genre assignment.</returns>
         [HttpGet("UntaggedMedia")]
         public ActionResult<IEnumerable<object>> GetUntaggedMedia([FromQuery] Guid libraryId)
         {
@@ -177,14 +169,18 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
             }
 
             var config = Plugin.Instance!.Configuration;
+
             var definedTagNames = config.Tags
                 .Select(t => t.Name)
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
             var definedGenreNames = config.Genres
                 .Select(g => g.Name)
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-            // Query all movies and series inside this library using TopParentIds
+            // AncestorIds is the correct way to scope a query to items inside a specific
+            // library folder. TopParentIds has different semantics and was returning zero
+            // results, which caused the frontend to show "all items are tagged".
             var query = new InternalItemsQuery
             {
                 Recursive = true,
@@ -193,23 +189,27 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
                     BaseItemKind.Movie,
                     BaseItemKind.Series
                 },
-                TopParentIds = new[] { libraryId },
+                AncestorIds = new[] { libraryId },
                 OrderBy = new[] { (ItemSortBy.SortName, SortOrder.Ascending) }
             };
 
             var allItems = _libraryManager.GetItemsResult(query).Items;
 
-            // Filter: keep only items with NO matching defined tag AND NO matching defined genre
             var untagged = allItems
                 .Where(item =>
                 {
-                    var hasTags = definedTagNames.Count > 0 &&
-                                  item.Tags != null &&
-                                  item.Tags.Any(t => definedTagNames.Contains(t));
-                    var hasGenres = definedGenreNames.Count > 0 &&
-                                   item.Genres != null &&
-                                   item.Genres.Any(g => definedGenreNames.Contains(g));
-                    return !hasTags && !hasGenres;
+                    // If no tags are defined yet, every item needs attention.
+                    bool hasDefinedTag = definedTagNames.Count > 0
+                        && item.Tags != null
+                        && item.Tags.Any(t => definedTagNames.Contains(t));
+
+                    // If no genres are defined yet, treat genre as missing.
+                    bool hasDefinedGenre = definedGenreNames.Count > 0
+                        && item.Genres != null
+                        && item.Genres.Any(g => definedGenreNames.Contains(g));
+
+                    // Include item if it is missing a defined tag OR a defined genre.
+                    return !hasDefinedTag || !hasDefinedGenre;
                 })
                 .Select(item => new
                 {
