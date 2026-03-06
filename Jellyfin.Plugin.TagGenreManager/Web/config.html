@@ -51,23 +51,39 @@
         }
         .tgm-add-row > div { flex-grow: 1; }
 
-        /* ── List ── */
+        /* ── Definition list box ── */
         .tgm-list {
-            max-height: 320px;
+            max-height: 300px;
             overflow-y: auto;
-            border-radius: 4px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(0,0,0,0.18);
+            /* custom scrollbar */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.2) transparent;
         }
+        .tgm-list::-webkit-scrollbar { width: 6px; }
+        .tgm-list::-webkit-scrollbar-track { background: transparent; }
+        .tgm-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
         .tgm-list-item {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 8px 12px;
+            padding: 9px 14px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
+            gap: 10px;
         }
         .tgm-list-item:last-child { border-bottom: none; }
         .tgm-item-name {
             font-size: 0.93rem;
+            flex: 1;          /* pushes delete button to the far right */
         }
+        .tgm-delete-btn {
+            flex-shrink: 0;
+            opacity: 0.45;
+            transition: opacity 0.15s, color 0.15s;
+            margin-left: auto;
+        }
+        .tgm-delete-btn:hover { opacity: 1; color: #e57373; }
         .tgm-badge {
             display: inline-block;
             padding: 2px 8px;
@@ -83,7 +99,7 @@
         .tgm-search-result {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             padding: 9px 14px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
             cursor: pointer;
@@ -93,10 +109,24 @@
         .tgm-search-result.selected { background: rgba(0,164,220,0.15); }
         .tgm-type-pill {
             font-size: 0.72rem;
-            padding: 2px 8px;
+            padding: 2px 10px;
             border-radius: 10px;
-            background: rgba(255,255,255,0.12);
+            background: rgba(0,164,220,0.25);
+            color: #4fc3f7;
+            font-weight: 600;
             white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .tgm-result-name {
+            font-weight: 600;
+            color: #fff;
+            flex: 1;
+        }
+        .tgm-result-year {
+            font-size: 0.82rem;
+            opacity: 0.5;
+            margin-left: 6px;
+            font-weight: 400;
         }
 
         /* ── Editor ── */
@@ -359,9 +389,10 @@
                 var html = tags.map(function (t) {
                     return '<div class="tgm-list-item">' +
                         '<span class="tgm-item-name">' + escHtml(t.Name) + '</span>' +
-                        '<button type="button" class="fab mini btnDeleteTag" data-id="' + t.Id + '" title="Delete">' +
+                        '<button type="button" class="fab mini btnDeleteTag tgm-delete-btn" data-id="' + t.Id + '" title="Delete tag">' +
                             '<i class="md-icon">delete</i>' +
-                        '</button></div>';
+                        '</button>' +
+                    '</div>';
                 }).join('');
                 qs('#listTags').innerHTML = html;
                 qsa('.btnDeleteTag').forEach(function (btn) {
@@ -402,9 +433,10 @@
                 var html = genres.map(function (g) {
                     return '<div class="tgm-list-item">' +
                         '<span class="tgm-item-name">' + escHtml(g.Name) + '</span>' +
-                        '<button type="button" class="fab mini btnDeleteGenre" data-id="' + g.Id + '" title="Delete">' +
+                        '<button type="button" class="fab mini btnDeleteGenre tgm-delete-btn" data-id="' + g.Id + '" title="Delete genre">' +
                             '<i class="md-icon">delete</i>' +
-                        '</button></div>';
+                        '</button>' +
+                    '</div>';
                 }).join('');
                 qs('#listGenres').innerHTML = html;
                 qsa('.btnDeleteGenre').forEach(function (btn) {
@@ -469,7 +501,9 @@
                 var html = items.map(function (item) {
                     return '<div class="tgm-search-result" data-id="' + item.Id + '">' +
                         '<span class="tgm-type-pill">' + escHtml(item.Type) + '</span>' +
-                        '<span style="flex:1">' + escHtml(item.Name) + ' (' + (item.ProductionYear || '?') + ')</span>' +
+                        '<span class="tgm-result-name">' + escHtml(item.Name) +
+                            '<span class="tgm-result-year">(' + (item.ProductionYear || '?') + ')</span>' +
+                        '</span>' +
                     '</div>';
                 }).join('');
                 qs('#listSearchResults').innerHTML = html;
