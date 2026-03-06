@@ -59,8 +59,9 @@
             flex-grow: 1;
         }
 
-        /* ── Definition list box ── */
-        .tgm-list {
+        /* ── Definition & Checkbox list boxes ── */
+        .tgm-list,
+        .tgm-checkbox-list {
             max-height: 300px;
             overflow-y: auto;
             border-radius: 6px;
@@ -71,15 +72,18 @@
             scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
         }
 
-        .tgm-list::-webkit-scrollbar {
+        .tgm-list::-webkit-scrollbar,
+        .tgm-checkbox-list::-webkit-scrollbar {
             width: 6px;
         }
 
-        .tgm-list::-webkit-scrollbar-track {
+        .tgm-list::-webkit-scrollbar-track,
+        .tgm-checkbox-list::-webkit-scrollbar-track {
             background: transparent;
         }
 
-        .tgm-list::-webkit-scrollbar-thumb {
+        .tgm-list::-webkit-scrollbar-thumb,
+        .tgm-checkbox-list::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.2);
             border-radius: 3px;
         }
@@ -170,6 +174,17 @@
             font-weight: 400;
         }
 
+        /* ── Columns Layout ── */
+        .tgm-columns {
+            display: flex;
+            gap: 30px;
+        }
+
+        .tgm-col {
+            flex: 1;
+            min-width: 0; /* allows text to truncate instead of stretching column */
+        }
+
         /* ── Editor ── */
         .tgm-editor {
             border-top: 1px solid rgba(255, 255, 255, 0.15);
@@ -177,28 +192,12 @@
             margin-top: 10px;
         }
 
-        .tgm-editor-columns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-        }
-
-        .tgm-editor-col {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .tgm-checkbox-list {
-            max-height: 320px;
-            overflow-y: auto;
-        }
-
         .tgm-checkbox-row {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 9px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .tgm-checkbox-row:last-child {
@@ -319,32 +318,34 @@
                     <p style="margin-bottom:20px;">Define the canonical tags and genres available for assignment. Items
                         are sorted alphabetically.</p>
 
-                    <!-- Tags -->
-                    <div class="section">
-                        <h2>Tags</h2>
-                        <div class="tgm-add-row">
-                            <div>
-                                <input type="text" id="txtNewTag" is="emby-input" label="New Tag Name" />
+                    <div class="tgm-columns">
+                        <!-- Tags -->
+                        <div class="tgm-col">
+                            <h2 style="margin-top:0;">Tags</h2>
+                            <div class="tgm-add-row">
+                                <div>
+                                    <input type="text" id="txtNewTag" is="emby-input" label="New Tag Name" />
+                                </div>
+                                <button is="emby-button" type="button" class="raised button-submit"
+                                    id="btnAddTag">Add</button>
                             </div>
-                            <button is="emby-button" type="button" class="raised button-submit"
-                                id="btnAddTag">Add</button>
+                            <div id="statusTag" class="tgm-status"></div>
+                            <div class="paperList tgm-list" id="listTags"></div>
                         </div>
-                        <div id="statusTag" class="tgm-status"></div>
-                        <div class="paperList tgm-list" id="listTags"></div>
-                    </div>
 
-                    <!-- Genres -->
-                    <div class="section tgm-mt">
-                        <h2>Genres</h2>
-                        <div class="tgm-add-row">
-                            <div>
-                                <input type="text" id="txtNewGenre" is="emby-input" label="New Genre Name" />
+                        <!-- Genres -->
+                        <div class="tgm-col">
+                            <h2 style="margin-top:0;">Genres</h2>
+                            <div class="tgm-add-row">
+                                <div>
+                                    <input type="text" id="txtNewGenre" is="emby-input" label="New Genre Name" />
+                                </div>
+                                <button is="emby-button" type="button" class="raised button-submit"
+                                    id="btnAddGenre">Add</button>
                             </div>
-                            <button is="emby-button" type="button" class="raised button-submit"
-                                id="btnAddGenre">Add</button>
+                            <div id="statusGenre" class="tgm-status"></div>
+                            <div class="paperList tgm-list" id="listGenres"></div>
                         </div>
-                        <div id="statusGenre" class="tgm-status"></div>
-                        <div class="paperList tgm-list" id="listGenres"></div>
                     </div>
                 </div>
 
@@ -370,13 +371,13 @@
                             Checkboxes pre-ticked match tags/genres already saved on this item.
                         </p>
                         <div id="statusSave" class="tgm-status"></div>
-                        <div class="tgm-editor-columns">
-                            <div class="tgm-editor-col">
-                                <h3>Tags</h3>
+                        <div class="tgm-columns">
+                            <div class="tgm-col">
+                                <h3 style="margin-top:0;">Tags</h3>
                                 <div class="tgm-checkbox-list" id="editorTags"></div>
                             </div>
-                            <div class="tgm-editor-col">
-                                <h3>Genres</h3>
+                            <div class="tgm-col">
+                                <h3 style="margin-top:0;">Genres</h3>
                                 <div class="tgm-checkbox-list" id="editorGenres"></div>
                             </div>
                         </div>
