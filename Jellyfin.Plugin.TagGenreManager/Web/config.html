@@ -71,6 +71,8 @@
             padding: 9px 14px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
             gap: 10px;
+            width: 100%;
+            box-sizing: border-box;
         }
         .tgm-list-item:last-child { border-bottom: none; }
         .tgm-item-name {
@@ -638,8 +640,10 @@
                 var html = items.map(function (item) {
                     return '<div class="tgm-untagged-item" data-id="' + item.Id + '">' +
                         '<span class="tgm-type-pill">' + escHtml(item.Type) + '</span>' +
-                        '<span style="flex:1">' + escHtml(item.Name) + ' (' + (item.ProductionYear || '?') + ')</span>' +
-                        '<i class="md-icon" style="opacity:.5; font-size:1rem;">edit</i>' +
+                        '<span class="tgm-result-name">' + escHtml(item.Name) +
+                            '<span class="tgm-result-year">(' + (item.ProductionYear || '?') + ')</span>' +
+                        '</span>' +
+                        '<i class="md-icon" style="opacity:.5; font-size:1rem; margin-left:auto;">edit</i>' +
                     '</div>';
                 }).join('');
                 qs('#listUntagged').innerHTML = html;
