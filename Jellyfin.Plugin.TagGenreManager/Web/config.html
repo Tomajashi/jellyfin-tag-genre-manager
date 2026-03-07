@@ -638,11 +638,13 @@
                     var html = definedItems.map(function (def) {
                         var isChecked = currentSet[def.Name.toLowerCase()] ? 'checked' : '';
                         var checkedClass = isChecked ? ' style="font-weight:600;"' : '';
-                        return '<div class="tgm-checkbox-row">' +
+                        return '<div class="tgm-checkbox-row checkboxContainer">' +
+                            '<label class="emby-checkbox-label">' +
                             '<input type="checkbox" is="emby-checkbox"' +
                             ' class="chk-' + containerId + '"' +
                             ' value="' + escAttr(def.Name) + '" ' + isChecked + ' />' +
-                            '<label' + checkedClass + '>' + escHtml(def.Name) + '</label>' +
+                            '<span' + checkedClass + '>' + escHtml(def.Name) + '</span>' +
+                            '</label>' +
                             '</div>';
                     }).join('');
                     qs('#' + containerId).innerHTML = html;
