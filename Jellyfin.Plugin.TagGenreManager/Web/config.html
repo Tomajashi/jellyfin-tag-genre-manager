@@ -8,6 +8,11 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <!-- Version: 3.0.0 - Alphabetical Order, Pre-selection, Untagged Scanner -->
+</head>
+
+<body>
+    <div id="TagGenreManagerConfigurationPage" data-role="page" class="page type-interior pluginConfigurationPage"
+        data-require="emby-input,emby-button,emby-select,emby-checkbox">
     <style>
         /* ── Tab bar ── */
         .tgm-tabs {
@@ -295,11 +300,6 @@
             margin-bottom: 14px;
         }
     </style>
-</head>
-
-<body>
-    <div id="TagGenreManagerConfigurationPage" data-role="page" class="page type-interior pluginConfigurationPage"
-        data-require="emby-input,emby-button,emby-select,emby-checkbox">
         <div data-role="content">
             <div class="content-primary">
                 <h1>Custom Tag &amp; Genre Manager</h1>
@@ -472,7 +472,7 @@
                     var html = tags.map(function (t) {
                         return '<div class="tgm-list-item">' +
                             '<span class="tgm-item-name">' + escHtml(t.Name) + '</span>' +
-                            '<button type="button" class="fab mini btnDeleteTag tgm-delete-btn" data-id="' + t.Id + '" title="Delete tag">' +
+                            '<button type="button" is="paper-icon-button-light" class="paper-icon-button-light emby-button btnDeleteTag tgm-delete-btn" data-id="' + t.Id + '" title="Delete tag">' +
                             '<i class="md-icon">delete</i>' +
                             '</button>' +
                             '</div>';
@@ -516,7 +516,7 @@
                     var html = genres.map(function (g) {
                         return '<div class="tgm-list-item">' +
                             '<span class="tgm-item-name">' + escHtml(g.Name) + '</span>' +
-                            '<button type="button" class="fab mini btnDeleteGenre tgm-delete-btn" data-id="' + g.Id + '" title="Delete genre">' +
+                            '<button type="button" is="paper-icon-button-light" class="paper-icon-button-light emby-button btnDeleteGenre tgm-delete-btn" data-id="' + g.Id + '" title="Delete genre">' +
                             '<i class="md-icon">delete</i>' +
                             '</button>' +
                             '</div>';
