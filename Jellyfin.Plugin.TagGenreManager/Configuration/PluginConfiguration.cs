@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Jellyfin.Plugin.TagGenreManager.Models;
 using MediaBrowser.Model.Plugins;
 
@@ -14,17 +15,17 @@ public class PluginConfiguration : BasePluginConfiguration
     /// </summary>
     public PluginConfiguration()
     {
-        Tags = new List<ManagedItem>();
-        Genres = new List<ManagedItem>();
+        Tags = new Collection<ManagedItem>();
+        Genres = new Collection<ManagedItem>();
     }
 
     /// <summary>
-    /// Gets or sets the list of custom tags.
+    /// Gets the list of custom tags.
     /// </summary>
-    public List<ManagedItem> Tags { get; set; }
+    public Collection<ManagedItem> Tags { get; }
 
     /// <summary>
-    /// Gets or sets the list of custom genres.
+    /// Gets the list of custom genres.
     /// </summary>
-    public List<ManagedItem> Genres { get; set; }
+    public Collection<ManagedItem> Genres { get; }
 }

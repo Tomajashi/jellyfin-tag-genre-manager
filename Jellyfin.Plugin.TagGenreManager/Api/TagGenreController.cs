@@ -53,7 +53,7 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
         public ActionResult AddTag([FromBody] ManagedItem tag)
         {
             var config = Plugin.Instance!.Configuration;
-            if (config.Tags.Exists(t => t.Name.Equals(tag.Name, StringComparison.OrdinalIgnoreCase)))
+            if (config.Tags.Any(t => t.Name.Equals(tag.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 return Conflict("Tag already exists");
             }
@@ -105,7 +105,7 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
         public ActionResult AddGenre([FromBody] ManagedItem genre)
         {
             var config = Plugin.Instance!.Configuration;
-            if (config.Genres.Exists(g => g.Name.Equals(genre.Name, StringComparison.OrdinalIgnoreCase)))
+            if (config.Genres.Any(g => g.Name.Equals(genre.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 return Conflict("Genre already exists");
             }
