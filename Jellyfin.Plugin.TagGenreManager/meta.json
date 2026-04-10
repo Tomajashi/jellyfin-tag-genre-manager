@@ -5,10 +5,10 @@
   "description": "Manage custom tags and genres with a centralized interface",
   "owner": "Tomajashi",
   "overview": "Custom Tag & Genre Manager Plugin for Jellyfin",
-  "targetAbi": "10.10.3.0",
-  "timestamp": "2025-12-24T16:00:00Z",
-  "version": "1.0.0.0",
-  "changelog": "Initial release",
+  "targetAbi": "10.11.8.0",
+  "timestamp": "2026-04-10T15:00:00Z",
+  "version": "1.1.0.0",
+  "changelog": "Updated for Jellyfin v10.11.8 compatibility",
   "sourceUrl": "https://github.com/Tomajashi/jellyfin-tag-genre-manager",
   "checksum": ""
 }

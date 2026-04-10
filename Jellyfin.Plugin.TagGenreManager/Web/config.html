@@ -7,7 +7,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <!-- Version: 3.0.0 - Alphabetical Order, Pre-selection, Untagged Scanner -->
+    <!-- Version: 4.2.0 - Alphabetical Order, Pre-selection, Untagged Scanner, Library Browser, JSON Export+Restore -->
 </head>
 
 <body>
@@ -299,6 +299,251 @@
         .tgm-mb {
             margin-bottom: 14px;
         }
+
+        /* ── Library Browser ── */
+        .tgm-lib-stats {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .tgm-stat-card {
+            flex: 1;
+            min-width: 120px;
+            background: rgba(0,0,0,0.22);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 8px;
+            padding: 12px 16px;
+            text-align: center;
+        }
+
+        .tgm-stat-num {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--theme-primary-color, #00a4dc);
+            line-height: 1.1;
+        }
+
+        .tgm-stat-label {
+            font-size: 0.78rem;
+            opacity: 0.6;
+            margin-top: 4px;
+        }
+
+        .tgm-filter-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+
+        .tgm-filter-btn {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 20px;
+            color: inherit;
+            padding: 5px 14px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .tgm-filter-btn:hover {
+            background: rgba(255,255,255,0.13);
+        }
+
+        .tgm-filter-btn.active {
+            background: var(--theme-primary-color, #00a4dc);
+            border-color: var(--theme-primary-color, #00a4dc);
+            color: #fff;
+        }
+
+        .tgm-search-filter {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .tgm-media-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .tgm-media-table th {
+            text-align: left;
+            padding: 8px 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.55;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            white-space: nowrap;
+        }
+
+        .tgm-media-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            vertical-align: middle;
+        }
+
+        .tgm-media-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tgm-media-table tr:hover td {
+            background: rgba(255,255,255,0.04);
+        }
+
+        .tgm-pill {
+            display: inline-block;
+            padding: 2px 9px;
+            border-radius: 10px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            margin: 2px 2px 2px 0;
+            white-space: nowrap;
+        }
+
+        .tgm-pill-tag {
+            background: rgba(0,164,220,0.20);
+            color: #4fc3f7;
+            border: 1px solid rgba(0,164,220,0.35);
+        }
+
+        .tgm-pill-genre {
+            background: rgba(156,39,176,0.20);
+            color: #ce93d8;
+            border: 1px solid rgba(156,39,176,0.35);
+        }
+
+        .tgm-pill-missing {
+            background: rgba(244,67,54,0.12);
+            color: #ef9a9a;
+            border: 1px solid rgba(244,67,54,0.25);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .tgm-table-wrap {
+            max-height: 480px;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.14);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.2) transparent;
+        }
+
+        .tgm-table-wrap::-webkit-scrollbar { width: 6px; }
+        .tgm-table-wrap::-webkit-scrollbar-track { background: transparent; }
+        .tgm-table-wrap::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+
+        .tgm-edit-row-btn {
+            opacity: 0.4;
+            cursor: pointer;
+            transition: opacity 0.15s;
+            background: none;
+            border: none;
+            color: inherit;
+            padding: 2px 4px;
+        }
+
+        .tgm-edit-row-btn:hover { opacity: 1; }
+
+        .tgm-year-col { white-space: nowrap; opacity: 0.55; font-size: 0.82rem; }
+        .tgm-type-col { white-space: nowrap; }
+        .tgm-name-col { font-weight: 600; }
+
+        .tgm-export-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+
+        .tgm-export-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,164,220,0.15);
+            border: 1px solid rgba(0,164,220,0.35);
+            border-radius: 6px;
+            color: #4fc3f7;
+            padding: 6px 14px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .tgm-export-btn:hover {
+            background: rgba(0,164,220,0.28);
+            border-color: rgba(0,164,220,0.6);
+        }
+
+        .tgm-export-btn i { font-size: 1rem; }
+
+        /* ── Restore section ── */
+        .tgm-restore-section {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255,255,255,0.10);
+        }
+
+        .tgm-restore-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .tgm-file-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 220px;
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: 1px dashed rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.04);
+            cursor: pointer;
+            font-size: 0.86rem;
+            transition: background 0.15s, border-color 0.15s;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .tgm-file-label:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.45);
+        }
+
+        .tgm-progress-bar-wrap {
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.10);
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .tgm-progress-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 3px;
+            background: var(--theme-primary-color, #00a4dc);
+            transition: width 0.25s ease;
+        }
+
+        .tgm-progress-text {
+            font-size: 0.82rem;
+            opacity: 0.65;
+        }
     </style>
         <div data-role="content">
             <div class="content-primary">
@@ -309,6 +554,7 @@
                     <button class="tgm-tab-btn active" id="btnTabDef">📋 Definitions</button>
                     <button class="tgm-tab-btn" id="btnTabAssign">🎬 Assignment</button>
                     <button class="tgm-tab-btn" id="btnTabUntagged">🔍 Untagged Media</button>
+                    <button class="tgm-tab-btn" id="btnTabLibrary">📚 Library Browser</button>
                 </div>
 
                 <!-- ════════════════════════════════════
@@ -417,6 +663,112 @@
                     <div class="paperList tgm-untagged-list" id="listUntagged"></div>
                 </div>
 
+                <!-- ════════════════════════════════════
+                     TAB 4 – LIBRARY BROWSER
+                     ════════════════════════════════════ -->
+                <div id="tabLibrary" style="display:none;">
+                    <h2>Library Browser</h2>
+                    <p style="opacity:.7; margin-bottom:20px;">
+                        Select a library and click <strong>Load</strong> to build a full media database showing
+                        every movie and series together with their assigned tags and genres.
+                        Use the filter bar to quickly spot items that still need attention.
+                    </p>
+
+                    <div class="tgm-lib-select-row">
+                        <div>
+                            <select id="selLibraryBrowser" is="emby-select" label="Select Library">
+                                <option value="">-- Choose a library --</option>
+                            </select>
+                        </div>
+                        <button is="emby-button" class="raised" id="btnLoadLibrary">Load</button>
+                    </div>
+
+                    <div id="statusLibrary" class="tgm-status"></div>
+
+                    <div id="libraryBrowserContent" style="display:none;">
+                        <!-- Stats row -->
+                        <div class="tgm-lib-stats">
+                            <div class="tgm-stat-card">
+                                <div class="tgm-stat-num" id="lbStatTotal">0</div>
+                                <div class="tgm-stat-label">Total Items</div>
+                            </div>
+                            <div class="tgm-stat-card">
+                                <div class="tgm-stat-num" id="lbStatTagged">0</div>
+                                <div class="tgm-stat-label">Have Managed Tag</div>
+                            </div>
+                            <div class="tgm-stat-card">
+                                <div class="tgm-stat-num" id="lbStatGenred">0</div>
+                                <div class="tgm-stat-label">Have Managed Genre</div>
+                            </div>
+                            <div class="tgm-stat-card">
+                                <div class="tgm-stat-num" id="lbStatComplete">0</div>
+                                <div class="tgm-stat-label">Fully Tagged</div>
+                            </div>
+                        </div>
+
+                        <!-- Filter bar -->
+                        <div class="tgm-filter-bar">
+                            <button class="tgm-filter-btn active" id="lbFilterAll" data-filter="all">All</button>
+                            <button class="tgm-filter-btn" id="lbFilterMissingTag" data-filter="missingTag">Missing Tag</button>
+                            <button class="tgm-filter-btn" id="lbFilterMissingGenre" data-filter="missingGenre">Missing Genre</button>
+                            <button class="tgm-filter-btn" id="lbFilterMissingBoth" data-filter="missingBoth">Missing Both</button>
+                            <input type="text" id="lbSearchBox" is="emby-input"
+                                placeholder="Filter by name…"
+                                style="flex:1; min-width:160px; margin:0;"
+                                label="Filter by name" />
+                        </div>
+
+                        <!-- Table -->
+                        <div class="tgm-table-wrap">
+                            <table class="tgm-media-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Year</th>
+                                        <th>Type</th>
+                                        <th>Managed Tags</th>
+                                        <th>Managed Genres</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lbTableBody"></tbody>
+                            </table>
+                        </div>
+                        <div class="tgm-export-bar">
+                            <div style="font-size:0.8rem; opacity:0.45;" id="lbRowCount"></div>
+                            <button type="button" class="tgm-export-btn" id="btnExportJson">
+                                <i class="md-icon">download</i> Export JSON
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Restore from Backup -->
+                    <div class="tgm-restore-section">
+                        <h3 style="margin-top:0;">Restore from Backup</h3>
+                        <p style="opacity:.7; margin-bottom:14px; font-size:0.9rem;">
+                            Upload a previously exported <code>.json</code> backup to reapply all tags and genres
+                            to each media item. Items are matched by their Jellyfin ID — items that no longer exist
+                            in the library are safely skipped.
+                        </p>
+                        <div class="tgm-restore-row">
+                            <label class="tgm-file-label" for="inputRestoreFile">
+                                <i class="md-icon">upload_file</i>
+                                <span id="restoreFileName">Choose a .json backup file…</span>
+                            </label>
+                            <input type="file" id="inputRestoreFile" accept=".json" style="display:none;">
+                            <button type="button" class="tgm-export-btn" id="btnRestoreJson" disabled>
+                                <i class="md-icon">restore</i> Restore
+                            </button>
+                        </div>
+                        <div id="statusRestore" class="tgm-status"></div>
+                        <div id="restoreProgressArea" style="display:none; margin-top:12px;">
+                            <div class="tgm-progress-bar-wrap">
+                                <div class="tgm-progress-bar" id="restoreProgressBar"></div>
+                            </div>
+                            <div class="tgm-progress-text" id="restoreProgressText"></div>
+                        </div>
+                    </div>
+                </div>
+
             </div><!-- /content-primary -->
         </div><!-- /content -->
 
@@ -425,7 +777,7 @@
             (function () {
                 'use strict';
 
-                console.log('[TagGenreManager] v3.0.0 loaded');
+                console.log('[TagGenreManager] v4.0.0 loaded');
 
                 var pageId = '#TagGenreManagerConfigurationPage';
                 var cachedTags = [];   // sorted list of defined tags
@@ -747,8 +1099,267 @@
                 var TABS = {
                     tabDefinitions: 'btnTabDef',
                     tabAssignment: 'btnTabAssign',
-                    tabUntagged: 'btnTabUntagged'
+                    tabUntagged: 'btnTabUntagged',
+                    tabLibrary: 'btnTabLibrary'
                 };
+
+                // ── Library Browser ──────────────────────────────────────────────
+                var lbAllItems = [];       // full dataset from last scan
+                var lbActiveFilter = 'all'; // current filter key
+
+                function loadLibraryBrowserLibraries() {
+                    ApiClient.getJSON(getUrl('Libraries')).then(function (libs) {
+                        var sel = qs('#selLibraryBrowser');
+                        sel.innerHTML = '<option value="">-- Choose a library --</option>';
+                        libs.forEach(function (lib) {
+                            var opt = document.createElement('option');
+                            opt.value = lib.Id;
+                            opt.textContent = lib.Name;
+                            sel.appendChild(opt);
+                        });
+                    }).catch(function () {
+                        showStatus('statusLibrary', 'error', 'Could not load libraries.');
+                    });
+                }
+
+                function scanLibraryMedia() {
+                    var libId = qs('#selLibraryBrowser').value;
+                    if (!libId) {
+                        showStatus('statusLibrary', 'info', 'Please select a library first.');
+                        return;
+                    }
+                    Dashboard.showLoadingMsg();
+                    qs('#libraryBrowserContent').style.display = 'none';
+                    qs('#statusLibrary').className = 'tgm-status';
+
+                    ApiClient.getJSON(getUrl('LibraryMedia?libraryId=' + libId)).then(function (items) {
+                        Dashboard.hideLoadingMsg();
+                        lbAllItems = items;
+                        lbActiveFilter = 'all';
+
+                        // Update filter button states
+                        qsa('.tgm-filter-btn').forEach(function (b) {
+                            b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
+                        });
+
+                        // Stats
+                        var tagged   = items.filter(function (i) { return i.ManagedTags && i.ManagedTags.length > 0; }).length;
+                        var genred   = items.filter(function (i) { return i.ManagedGenres && i.ManagedGenres.length > 0; }).length;
+                        var complete = items.filter(function (i) { return i.ManagedTags && i.ManagedTags.length > 0 && i.ManagedGenres && i.ManagedGenres.length > 0; }).length;
+                        qs('#lbStatTotal').textContent    = items.length;
+                        qs('#lbStatTagged').textContent   = tagged;
+                        qs('#lbStatGenred').textContent   = genred;
+                        qs('#lbStatComplete').textContent = complete;
+
+                        qs('#libraryBrowserContent').style.display = 'block';
+                        renderLibraryTable();
+                    }).catch(function (err) {
+                        Dashboard.hideLoadingMsg();
+                        console.error('[TagGenreManager] LibraryMedia error:', err);
+                        showStatus('statusLibrary', 'error', 'Scan failed. Check the server log.');
+                    });
+                }
+
+                function renderLibraryTable() {
+                    var filterTerm = (qs('#lbSearchBox') ? qs('#lbSearchBox').value.toLowerCase().trim() : '');
+
+                    var subset = lbAllItems.filter(function (item) {
+                        // Text filter
+                        if (filterTerm && item.Name.toLowerCase().indexOf(filterTerm) === -1) return false;
+                        // Category filter
+                        var hasTag   = item.ManagedTags && item.ManagedTags.length > 0;
+                        var hasGenre = item.ManagedGenres && item.ManagedGenres.length > 0;
+                        if (lbActiveFilter === 'missingTag')   return !hasTag;
+                        if (lbActiveFilter === 'missingGenre') return !hasGenre;
+                        if (lbActiveFilter === 'missingBoth')  return !hasTag && !hasGenre;
+                        return true; // 'all'
+                    });
+
+                    var tbody = qs('#lbTableBody');
+                    if (!subset.length) {
+                        tbody.innerHTML = '<tr><td colspan="6" class="tgm-empty">No items match the current filter.</td></tr>';
+                        qs('#lbRowCount').textContent = 'Showing 0 of ' + lbAllItems.length + ' items';
+                        return;
+                    }
+
+                    tbody.innerHTML = subset.map(function (item) {
+                        var tagPills = (item.ManagedTags && item.ManagedTags.length)
+                            ? item.ManagedTags.map(function (t) {
+                                return '<span class="tgm-pill tgm-pill-tag">' + escHtml(t) + '</span>';
+                              }).join('')
+                            : '<span class="tgm-pill tgm-pill-missing">none</span>';
+
+                        var genrePills = (item.ManagedGenres && item.ManagedGenres.length)
+                            ? item.ManagedGenres.map(function (g) {
+                                return '<span class="tgm-pill tgm-pill-genre">' + escHtml(g) + '</span>';
+                              }).join('')
+                            : '<span class="tgm-pill tgm-pill-missing">none</span>';
+
+                        return '<tr>' +
+                            '<td class="tgm-name-col">' + escHtml(item.Name) + '</td>' +
+                            '<td class="tgm-year-col">' + (item.ProductionYear || '—') + '</td>' +
+                            '<td class="tgm-type-col"><span class="tgm-type-pill">' + escHtml(item.Type) + '</span></td>' +
+                            '<td>' + tagPills + '</td>' +
+                            '<td>' + genrePills + '</td>' +
+                            '<td><button type="button" class="tgm-edit-row-btn" data-id="' + item.Id + '" title="Edit in Assignment tab"><i class="md-icon">edit</i></button></td>' +
+                            '</tr>';
+                    }).join('');
+
+                    // Wire edit buttons
+                    qsa('#lbTableBody .tgm-edit-row-btn').forEach(function (btn) {
+                        btn.addEventListener('click', function () {
+                            activateTab('tabAssignment');
+                            loadItemForEdit(this.getAttribute('data-id'));
+                        });
+                    });
+
+                    qs('#lbRowCount').textContent = 'Showing ' + subset.length + ' of ' + lbAllItems.length + ' items';
+                }
+
+                // ── Restore from JSON ──────────────────────────────────────────────
+                var pendingRestoreData = null;
+
+                function onRestoreFileSelected(e) {
+                    var file = e.target.files[0];
+                    if (!file) { return; }
+                    qs('#restoreFileName').textContent = file.name;
+                    var reader = new FileReader();
+                    reader.onload = function (ev) {
+                        try {
+                            var payload = JSON.parse(ev.target.result);
+                            if (!payload.items || !Array.isArray(payload.items)) {
+                                throw new Error('Missing items array.');
+                            }
+                            pendingRestoreData = payload;
+                            qs('#btnRestoreJson').disabled = false;
+                            qs('#restoreProgressArea').style.display = 'none';
+                            qs('#restoreProgressBar').style.width = '0%';
+                            showStatus('statusRestore', 'info',
+                                'ℹ File loaded — Library: "' + (payload.library || '?') +'"' +
+                                ', ' + payload.items.length + ' items.' +
+                                ' Click Restore to begin.');
+                        } catch (err) {
+                            pendingRestoreData = null;
+                            qs('#btnRestoreJson').disabled = true;
+                            showStatus('statusRestore', 'error', 'Invalid backup file: ' + err.message);
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+
+                function startRestore() {
+                    if (!pendingRestoreData || !pendingRestoreData.items.length) { return; }
+                    var items = pendingRestoreData.items;
+                    var stats = { restored: 0, notFound: 0, errors: 0 };
+                    qs('#btnRestoreJson').disabled = true;
+                    qs('#restoreProgressArea').style.display = 'block';
+                    qs('#statusRestore').className = 'tgm-status';
+                    processRestoreItem(items, 0, stats);
+                }
+
+                function processRestoreItem(items, index, stats) {
+                    if (index >= items.length) {
+                        var msg = '✔ Restore complete — ' + stats.restored + ' restored';
+                        if (stats.notFound) { msg += ', ' + stats.notFound + ' not found (skipped)'; }
+                        if (stats.errors)   { msg += ', ' + stats.errors + ' error(s)'; }
+                        msg += '.';
+                        showStatus('statusRestore', stats.errors ? 'info' : 'success', msg);
+                        qs('#restoreProgressBar').style.width = '100%';
+                        qs('#restoreProgressText').textContent = 'Done.';
+                        qs('#btnRestoreJson').disabled = false;
+                        return;
+                    }
+
+                    var pct = Math.round((index / items.length) * 100);
+                    qs('#restoreProgressBar').style.width = pct + '%';
+                    qs('#restoreProgressText').textContent =
+                        'Restoring ' + (index + 1) + ' / ' + items.length + ': ' + escHtml(items[index].name || items[index].id);
+
+                    var entry  = items[index];
+                    var userId = ApiClient.getCurrentUserId();
+
+                    ApiClient.getItem(userId, entry.id)
+                        .then(function (jellyfinItem) {
+                            jellyfinItem.Tags   = entry.allTags   || [];
+                            jellyfinItem.Genres = entry.allGenres || [];
+                            return ApiClient.updateItem(jellyfinItem);
+                        })
+                        .then(function () {
+                            stats.restored++;
+                            processRestoreItem(items, index + 1, stats);
+                        })
+                        .catch(function (err) {
+                            if (err && err.status === 404) { stats.notFound++; }
+                            else { stats.errors++; }
+                            processRestoreItem(items, index + 1, stats);
+                        });
+                }
+
+                function exportLibraryJson() {
+                    if (!lbAllItems.length) {
+                        showStatus('statusLibrary', 'info', 'No data to export. Please load a library first.');
+                        return;
+                    }
+
+                    var libName = (function () {
+                        var sel = qs('#selLibraryBrowser');
+                        var opt = sel.options[sel.selectedIndex];
+                        return opt ? opt.textContent : 'library';
+                    }());
+
+                    var payload = {
+                        exportedAt: new Date().toISOString(),
+                        library: libName,
+                        totalItems: lbAllItems.length,
+                        items: lbAllItems.map(function (item) {
+                            return {
+                                id:            item.Id,
+                                name:          item.Name,
+                                year:          item.ProductionYear || null,
+                                type:          item.Type,
+                                managedTags:   item.ManagedTags   || [],
+                                managedGenres: item.ManagedGenres || [],
+                                allTags:       item.Tags          || [],
+                                allGenres:     item.Genres        || []
+                            };
+                        })
+                    };
+
+                    var json = JSON.stringify(payload, null, 2);
+                    var blob = new Blob([json], { type: 'application/json' });
+                    var url  = URL.createObjectURL(blob);
+
+                    // Build a safe filename: "tgm-<LibraryName>-<YYYY-MM-DD>.json"
+                    var datePart = new Date().toISOString().slice(0, 10);
+                    var safeName = libName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                    var filename = 'tgm-' + safeName + '-' + datePart + '.json';
+
+                    var a = document.createElement('a');
+                    a.href     = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+
+                    showStatus('statusLibrary', 'success', '✔ Exported ' + lbAllItems.length + ' items to ' + filename);
+                }
+
+                function initLibraryBrowserFilters() {
+                    qsa('.tgm-filter-btn').forEach(function (btn) {
+                        btn.addEventListener('click', function () {
+                            lbActiveFilter = this.getAttribute('data-filter');
+                            qsa('.tgm-filter-btn').forEach(function (b) { b.classList.remove('active'); });
+                            this.classList.add('active');
+                            renderLibraryTable();
+                        });
+                    });
+                    var searchBox = qs('#lbSearchBox');
+                    if (searchBox) {
+                        searchBox.removeEventListener('input', renderLibraryTable);
+                        searchBox.addEventListener('input', renderLibraryTable);
+                    }
+                }
 
                 function activateTab(tabId) {
                     Object.keys(TABS).forEach(function (id) {
@@ -767,6 +1378,7 @@
                     qs('#btnTabDef').addEventListener('click', function () { activateTab('tabDefinitions'); });
                     qs('#btnTabAssign').addEventListener('click', function () { activateTab('tabAssignment'); });
                     qs('#btnTabUntagged').addEventListener('click', function () { activateTab('tabUntagged'); });
+                    qs('#btnTabLibrary').addEventListener('click', function () { activateTab('tabLibrary'); });
                 }
 
                 // ── Escape helpers ────────────────────────────────────────────────
@@ -811,6 +1423,26 @@
                     var btnScan = qs('#btnScanUntagged');
                     btnScan.removeEventListener('click', scanUntagged);
                     btnScan.addEventListener('click', scanUntagged);
+
+                    // Library Browser buttons
+                    loadLibraryBrowserLibraries();
+                    initLibraryBrowserFilters();
+                    var btnLoadLib = qs('#btnLoadLibrary');
+                    btnLoadLib.removeEventListener('click', scanLibraryMedia);
+                    btnLoadLib.addEventListener('click', scanLibraryMedia);
+
+                    var btnExport = qs('#btnExportJson');
+                    btnExport.removeEventListener('click', exportLibraryJson);
+                    btnExport.addEventListener('click', exportLibraryJson);
+
+                    // Restore section
+                    var inputRestore = qs('#inputRestoreFile');
+                    inputRestore.removeEventListener('change', onRestoreFileSelected);
+                    inputRestore.addEventListener('change', onRestoreFileSelected);
+
+                    var btnRestore = qs('#btnRestoreJson');
+                    btnRestore.removeEventListener('click', startRestore);
+                    btnRestore.addEventListener('click', startRestore);
                 });
 
                 function onSearchKey(e) {

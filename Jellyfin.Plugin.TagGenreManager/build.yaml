@@ -1,8 +1,8 @@
 ---
 name: "TagGenreManager"
 guid: "9557c486-0d04-4c3d-8a3e-965313936357"
-version: "1.0.0.0"
-targetAbi: "10.10.3.0"
+version: "1.1.0.0"
+targetAbi: "10.11.8.0"
 framework: "net8.0"
 overview: "Custom Tag & Genre Manager for Jellyfin"
 description: >

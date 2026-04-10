@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using Jellyfin.Data.Enums;
+using Jellyfin.Database.Implementations.Enums;
 using Jellyfin.Plugin.TagGenreManager.Models;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Library;
+using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Querying;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -150,6 +152,64 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
                 .OrderBy(f => f.Name, StringComparer.OrdinalIgnoreCase);
 
             return Ok(folders);
+        }
+
+        // ---- LIBRARY MEDIA DATABASE ----
+
+        /// <summary>
+        /// Returns ALL movies/series in the given library with their tags and genres.
+        /// Used by the Library Browser tab to build a full media database view.
+        /// </summary>
+        /// <param name="libraryId">The Guid of the library folder to scan.</param>
+        /// <returns>List of all media items in the library with tag/genre data.</returns>
+        [HttpGet("LibraryMedia")]
+        public ActionResult<IEnumerable<object>> GetLibraryMedia([FromQuery] Guid libraryId)
+        {
+            if (libraryId == Guid.Empty)
+            {
+                return BadRequest("libraryId is required.");
+            }
+
+            var query = new InternalItemsQuery
+            {
+                Recursive = true,
+                IncludeItemTypes = new[]
+                {
+                    BaseItemKind.Movie,
+                    BaseItemKind.Series
+                },
+                AncestorIds = new[] { libraryId },
+                OrderBy = new[] { (ItemSortBy.SortName, SortOrder.Ascending) }
+            };
+
+            var allItems = _libraryManager.GetItemsResult(query).Items;
+
+            var config = Plugin.Instance!.Configuration;
+            var definedTagNames = config.Tags
+                .Select(t => t.Name)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            var definedGenreNames = config.Genres
+                .Select(g => g.Name)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            var result = allItems.Select(item => new
+            {
+                item.Id,
+                item.Name,
+                ProductionYear = item.ProductionYear,
+                Type = item.GetType().Name,
+                Tags = item.Tags ?? Array.Empty<string>(),
+                Genres = item.Genres ?? Array.Empty<string>(),
+                // Which of the item's tags/genres are plugin-managed vs custom/external
+                ManagedTags = (item.Tags ?? Array.Empty<string>())
+                    .Where(t => definedTagNames.Contains(t))
+                    .ToArray(),
+                ManagedGenres = (item.Genres ?? Array.Empty<string>())
+                    .Where(g => definedGenreNames.Contains(g))
+                    .ToArray()
+            }).ToList();
+
+            return Ok(result);
         }
 
         // ---- UNTAGGED MEDIA ----
