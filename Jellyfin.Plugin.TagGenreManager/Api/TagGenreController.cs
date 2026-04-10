@@ -179,7 +179,7 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
                     BaseItemKind.Series
                 },
                 AncestorIds = new[] { libraryId },
-                OrderBy = new[] { (ItemSortBy.SortName, SortOrder.Ascending) }
+                OrderBy = new[] { (ItemSortBy.SortName, Jellyfin.Database.Implementations.Enums.SortOrder.Ascending) }
             };
 
             var allItems = _libraryManager.GetItemsResult(query).Items;
@@ -250,7 +250,7 @@ namespace Jellyfin.Plugin.TagGenreManager.Api
                     BaseItemKind.Series
                 },
                 AncestorIds = new[] { libraryId },
-                OrderBy = new[] { (ItemSortBy.SortName, SortOrder.Ascending) }
+                OrderBy = new[] { (ItemSortBy.SortName, Jellyfin.Database.Implementations.Enums.SortOrder.Ascending) }
             };
 
             var allItems = _libraryManager.GetItemsResult(query).Items;
